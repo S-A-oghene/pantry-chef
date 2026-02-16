@@ -1,0 +1,1214 @@
+W04 Final Project: Proposal Document for Pantry Chef
+1. Overview
+As a Nigerian, I know there are times we look inside our kitchen cabinet, would see rice, beans, crayfish, and other things, and still end up not knowing what to cook. This is the kind of problem this Pantry Chef hopes to solve. It will allow users to type in the available ingredients they have at home, and then show them different recipes they could cook with the available ingredients. I am motivated to help Lagosians and everyone else reduce food waste, save money, and make healthy eating easier. This is a web app that would combine recipe finding with nutritional analysis, to help people know exactly what they are eating.
+2. Target Audience
+●	Working-class Lagosians that are busy with work and traffic, with little to no time to think about recipes.
+●	University students that are on tight budgets but want to eat healthy/ good meals.
+●	Health-Conscious Nigerians that are monitoring their diets but don't know how to calculate calories for local dishes.
+●	Newly weds that are learning how to cook different meals with available ingredients.
+●	Small chop businesses that are looking for new recipes to add to their menu without wasting ingredients.
+
+3. Major Functions
+1.	Ingredient Input Form with Auto-suggest: It will allow users type ingredients like garri, egusi, plantain and the app will suggest similar items.
+2.	Multiple Selection Mode: It will allow users to select multiple ingredients at once from a visual pantry display.
+3.	Recipe Search with Filter: The app will Search TheMealDB API for recipes by ingredient, with filters for meal type (breakfast, lunch, dinner) and cooking time.
+4.	Recipe Display Grid: It will show results with food images, recipe title, and estimated cooking time in a responsive grid.
+5.	Recipe Details Page: It will display English instructions, exact measurements, ingredient list, and YouTube video link if available.
+6.	Nutritional Analysis Dashboard: The app will use Edamam API to show calorie count, protein, carbs, fat per serving with visual charts.
+7.	Local Measurements Conversion: Convert measurements from cups/grams to Nigerian measurements like cooking spoon, derica, or mudu where possible.
+8.	Save Favorite Recipes: The App will make use of LocalStorage to keep saved recipes even without internet connection.
+9.	Share Function: It will allow users to share recipe via WhatsApp, Twitter, or copy link.
+10.	Pantry Management Tips: It will contain a section with Nigerian-specific food storage tips (how to store garri, beans, etc. in humid weather).
+11.	Print Recipe Function: The app will allow users generate printer-friendly version of recipe.
+12.	Dark Mode Toggle: It will have this function for night cooking sessions to reduce eye strain.
+External Data Sources
+Source	Data to Fetch	Data Structure / Notes
+API 1: TheMealDB	Recipe name, area/cuisine, instructions, ingredient list, image URL, YouTube video link, tags.	Returns object with 8-12 properties including array of ingredients with measures.
+API 2: Edamam Nutrition Analysis API	Calories, macronutrients (fat, carbs, protein), micronutrients (iron, calcium), glycemic index.	Will create composite ingredient strings from recipe to send to API (e.g., 2 cups rice + 500g chicken).
+
+6. Initial Module List
+●	index.html - Main landing page with search
+●	recipe.html - Recipe details page
+●	favorites.html - Saved recipes page
+●	tips.html - Nigerian pantry management tips
+●	style.css - Main stylesheet
+●	responsive.css - Media queries for mobile/desktop
+●	main.js - Main JavaScript application logic
+●	apiService.js - Module for all API calls (TheMealDB and Edamam)
+●	nutritionCalculator.js - Module for nutrition calculations and chart generation
+●	localStorageManager.js - Module for saving/retrieving favorites
+●	measurementConverter.js - Module for converting between international and Nigerian measurements
+●	uiAnimations.js - Module for CSS animations and transitions
+●	shareFunction.js - Module for WhatsApp/Twitter sharing functionality
+●	printRecipe.js - Module for generating printer-friendly views
+
+7. Graphic Identity
+Color Scheme:
+●	Primary: #008751 (green - representing agriculture/vegetables)
+●	Secondary: #EAA908 (yellow - representing grain/garri)
+●	Accent: #D90000 (red - representing pepper/tomatoes)
+●	Background: #FFF9F0 (off-white - representing pap/akamu)
+●	Text: #1C1C1C (dark gray - for readability)
+Typography:
+●	Heading font: 'Montserrat', sans-serif (clean, modern)
+●	Body font: 'Open Sans', sans-serif (highly readable)
+●	Nigerian touch: Use ₦ symbol for any pricing features
+Icon Design:
+●	A traditional Nigerian cooking pot (okpo) with steam rising, inside a circular badge.
+●	Colors: Green pot on yellow circle with red steam lines.
+●	Alternative: Three spoons arranged like Nigerian flag with green, white, green colors.
+8. Timeline
+Week 5:
+●	Monday-Tuesday: Set up Trello board with all tasks and create GitHub repository
+●	Wednesday: Complete HTML structure for all 4 pages (index, recipe, favorites, tips)
+●	Thursday: Basic CSS layout and mobile-first responsive design
+●	Friday: Integrate TheMealDB API for basic recipe search
+●	Saturday: Implement ingredient input form with auto-suggest
+●	Sunday: Test on multiple devices and fix layout issues
+Week 6:
+●	Monday: Build recipe details page with tab navigation
+●	Tuesday: Integrate Edamam API for nutrition data display
+●	Wednesday: Create measurement conversion module for Nigerian units
+●	Thursday: Implement favorites functionality with LocalStorage
+●	Friday: Build share functionality (WhatsApp integration priority)
+●	Saturday: Add CSS animations
+●	Sunday: Mid-project testing and bug fixing
+Week 7:
+●	Monday: Implement dark mode toggle
+●	Tuesday: Create print recipe functionality
+●	Wednesday: Add Nigerian pantry tips content and images
+●	Thursday: Final accessibility audit and W3C validation
+●	Friday: Performance optimization (image compression, lazy loading)
+●	Saturday: Deploy to GitHub Pages and test live
+●	Sunday: Final documentation and prepare for submission
+
+
+
+9. Project Planning
+Trello Board Link: https://trello.com/b/xQA0FrUS/pantrychefproject
+Board will have these lists:
+1.	Backlog: All potential features
+2.	This Week: Tasks for current week
+3.	In Progress: Currently working on
+4.	Testing: Needs testing/review
+5.	Done: Completed tasks
+6.	Blocked: Issues needing help
+Initial cards will include: Design mobile wireframe, Set up API keys, Create measurement conversion table for Nigerian units, Test with slow internet, Implement error handling for API failures, Add alt text to all images, Test color contrast for accessibility, Create loading states for slow networks.
+
+10. Challenges
+●	Nigerian Internet Speeds: The app must work well on slow connections. I will implement lazy / skeleton loading and cache frequent searches.
+●	API Limitations: Edamam free tier has 10,000 calls/month limit. I will implement efficient caching to reduce calls.
+●	Ingredient Name Variations: Nigerian ingredients have multiple names (e.g., ugu vs fluted pumpkin leaves). I will create a mapping dictionary.
+●	Measurement Conversions: Converting cups to Nigerian "derica" is not a straightforward thing. I will use approximate conversions with clear disclaimers.
+●	Power Outages: Users might lose progress. I will implement auto-save to LocalStorage every 30 seconds.
+●	Cultural Relevance: This is to ensure recipes are practical for Nigerian kitchens. I will include filter for Nigerian Recipes Only.
+●	Mobile-First Complexity: Over 80% of Nigerian users access via phone. I have to ensure near-perfect/ perfect mobile experience before desktop.
+●	Budget Constraints: I must design within free tier limits to avoid unexpected costs.
+WIREFRAME DOCUMENTATION: PANTRY CHEF APP
+
+Note: These are meticulous textual descriptions of wireframes to be drawn. Each element's position, size, and function is specified.
+
+MOBILE WIREFRAME (320px viewport)
+
+SCREEN 1: HOME/LANDING PAGE
+
+```
+┌─────────────────────────────────────┐
+│ [🍳] PantryChef    [☰]              │
+├─────────────────────────────────────┤
+│                                     │
+│  🔍 [Search ingredients...] [🔎]    │
+│                                     │
+│  [📌 Nigerian Specials]             │
+│                                     │
+│  POPULAR FOR LAGOS NOW:             │
+│  ┌─────────────────────────────┐    │
+│  │  [Jollof Rice Image]        │    │
+│  │  Jollof Rice Express        │    │
+│  │  ⭐⭐⭐⭐ 35 mins        │    │
+│  └─────────────────────────────┘    │
+│                                     │
+│  ┌─────────────────────────────┐    │
+│  │  [Efo Riro Image]           │    │
+│  │  Spicy Efo Riro             │    │
+│  │  ⭐⭐⭐⭐ 50 mins        │    │
+│  └─────────────────────────────┘    │
+│                                     │
+│  ┌─────────────────────────────┐    │
+│  │  [Beans Porridge Image]     │    │
+│  │  Beans & Plantain           │    │
+│  │  ⭐⭐⭐ 1 hour 10 mins │    │
+│  └─────────────────────────────┘    │
+│                                     │
+├─────────────────────────────────────┤
+│ [🏠] [🔍] [❤️] [💡]                │
+└─────────────────────────────────────┘
+```
+
+KEY DETAILS:
+
+• Header: 60px height, fixed position
+• Logo: Left side, 40px × 40px, cooking pot icon
+• Menu button: Right side, 40px × 40px, three-line hamburger icon
+• Search bar: 280px width, 44px height, centered, rounded corners (8px radius)
+• Search placeholder text: "Search ingredients... e.g. rice, chicken, pepper"
+• Search button: Right inside search bar, magnifying glass icon
+• "Nigerian Specials" button: 280px × 44px, centered below search, green background (#008751)
+• Section heading: "POPULAR FOR LAGOS NOW" in bold, 16px font, 20px margin top
+• Recipe cards: 280px × 180px, white background, rounded corners (12px), shadow (2px 2px 8px rgba(0,0,0,0.1))
+• Card image: 280px × 100px, top of card, cover fit
+• Card title: 14px bold, 2 lines max, ellipsis overflow
+• Card rating: 12px, gold stars, 4px spacing
+• Card time: 12px, gray color (#666)
+• Bottom navigation: 60px height, fixed bottom, 4 icons equally spaced (Home, Search, Favorites, Tips)
+• Each nav icon: 24px × 24px, inactive state gray (#888), active state green (#008751)
+
+SCREEN 2: SEARCH/RESULTS PAGE
+
+```
+┌─────────────────────────────────────┐
+│ [←] Recipe Search    [⚙️]           │
+├─────────────────────────────────────┤
+│ Ingredients:                        │
+│ [rice] [×] [chicken] [×] [pepper]   │
+│ [tomatoes] [×] [onion] [×] [+]      │
+│                                     │
+│ FILTERS:                            │
+│ [All] [Breakfast] [Lunch] [Dinner]  │
+│ [< 30min] [< 60min] [Nigerian]      │
+│                                     │
+│ 12 RECIPES FOUND:                   │
+│ ┌─────────────────────────────┐     │
+│ │ [Jollof Image]              │     │
+│ │ Chicken Jollof Rice         │     │
+│ │ ✅ 4/5 ingredients          │     │
+│ │ ⭐⭐⭐⭐ 45 mins        │     │
+│ └─────────────────────────────┘     │
+│                                     │
+│ ┌─────────────────────────────┐     │
+│ │ [Fried Rice Image]          │     │
+│ │ Nigerian Fried Rice         │     │
+│ │ ✅ 3/5 ingredients          │     │
+│ │ ⭐⭐⭐ 55 mins         │     │
+│ └─────────────────────────────┘     │
+│                                     │
+│ [LOAD MORE]                         │
+│                                     │
+├─────────────────────────────────────┤
+│ [🏠] [🔍] [❤️] [💡]                │
+└─────────────────────────────────────┘
+```
+
+KEY DETAILS:
+
+• Back button: 40px × 40px, left arrow
+• Header title: "Recipe Search" centered, 18px bold
+• Settings icon: 40px × 40px, gear icon for filter settings
+• Selected ingredients row: Chips/tags with × remove button
+• Each chip: 8px padding, rounded corners (20px), green background (#008751E6), white text
+• Add ingredient button: [+] circular button, 36px diameter, green border
+• Filter section: Scrollable horizontal row of filter buttons
+• Each filter button: 80px × 32px, gray border, 6px radius, active state green fill
+• Results count: "12 RECIPES FOUND:" 14px semi-bold
+• Recipe cards: 280px × 160px (smaller than home page)
+• Match indicator: Green checkmark "✅ 4/5 ingredients" 12px text
+• Load more button: 280px × 40px, centered, outlined button style
+• Bottom navigation same as Screen 1
+
+SCREEN 3: RECIPE DETAILS PAGE
+
+```
+┌─────────────────────────────────────┐
+│ [←] [❤️]          [📤]             │
+├─────────────────────────────────────┤
+│                                     │
+│  [Jollof Rice Hero Image]           │
+│  ───────────────────────────        │
+│  CHICKEN JOLLOF RICE                │
+│  Nigerian • Main Dish • Spicy       │
+│  ⏱ 45 mins  👥 Serves 4  🔥 Medium │
+│                                     │
+│  [INGREDIENTS] [METHOD] [NUTRITION] │
+│  ───────────────────────────        │
+│  • 2 cups long grain rice           │
+│    (approx. 1 derica)               │
+│  • 500g chicken pieces              │
+│  • 4 medium tomatoes                │
+│  • 2 red bell peppers (tatashe)     │
+│  • 1 onion                          │
+│  • 3 tbsp vegetable oil             │
+│  • 2 cups chicken stock             │
+│                                     │
+│  [✅ I HAVE ALL] [📝 MISSING 2]     │
+│                                     │
+│  ┌─────────────────────────────┐    │
+│  │ 🎥 Watch Cooking Video      │    │
+│  │ [▶️ thumbnail image]        │    │
+│  └─────────────────────────────┘    │
+│                                     │
+│  [🖨️ PRINT] [📱 SHARE]              │
+│                                     │
+└─────────────────────────────────────┘
+```
+
+KEY DETAILS:
+
+• Header: Back button (left), favorite heart button (center right), share icon (right)
+• Hero image: 320px × 200px, full width, aspect ratio 16:10
+• Recipe title: 22px bold, centered, 2 lines max
+• Tags: 3 badges below title, 10px font, gray background
+• Stats row: 3 icons with text, 12px font, equal spacing
+• Tab navigation: 3 tabs, 106px width each, bottom border indicator
+• Ingredients list: Bullet points, 14px font, line height 1.6
+• Local measurement: "(approx. 1 derica)" in smaller 11px italics
+• Action buttons: Two buttons side by side, 136px × 40px each
+• Video section: 280px × 100px, rounded corners, play button overlay
+• Bottom action buttons: Centered, 140px × 44px each, 10px apart
+• No bottom navigation on this screen (replaced by action buttons)
+• When scrolling, header becomes semi-transparent with backdrop blur
+
+SCREEN 4: NUTRITION TAB (SAME PAGE, TAB SWITCH)
+
+```
+┌─────────────────────────────────────┐
+│ [←] [❤️]          [📤]             │
+├─────────────────────────────────────┤
+│                                     │
+│  NUTRITION FACTS                    │
+│  Per Serving (1 plate)              │
+│  ┌─────────────────────────────┐    │
+│  │ 🥗 450 CALORIES             │    │
+│  │ Daily Value: 22%            │    │
+│  └─────────────────────────────┘    │
+│                                     │
+│  MACRONUTRIENTS:                    │
+│  ┌───────┐ ┌───────┐ ┌───────┐     │
+│  │  Carbs │ │Protein│ │ Fat   │     │
+│  │  65g   │ │ 22g   │ │ 15g   │     │
+│  │  ▓▓▓▓  │ │ ▓▓▓   │ │ ▓▓    │     │
+│  └───────┘ └───────┘ └───────┘     │
+│                                     │
+│  DAILY VALUES:                      │
+│  Iron:    ▓▓▓▓▓▓▓▓▓ 45%             │
+│  Calcium: ▓▓▓▓▓    25%              │
+│  Vitamin C: ▓▓▓▓▓▓▓▓▓▓▓ 80%         │
+│                                     │
+│  DIETARY LABELS:                    │
+│  [High Protein] [Vitamin C Rich]    │
+│                                     │
+│  💡 This meal provides...           │
+│                                     │
+└─────────────────────────────────────┘
+```
+
+KEY DETAILS:
+
+• Nutrition card: 280px × 100px, green gradient background
+• Calorie display: 32px bold, centered
+• Daily value: 12px below calories
+• Macronutrient circles: 3 circles, 80px diameter each
+• Circle progress bars: Animated filling based on percentage
+• Micronutrient bars: Horizontal progress bars, 280px × 20px
+• Bar labels: Left-aligned text, percentage right-aligned
+• Dietary labels: Green rounded pills, 12px padding
+• Nutrition tip: Lightbulb icon with explanatory text
+• All nutrition data dynamically populated from Edamam API
+
+DESKTOP WIREFRAME (1024px viewport)
+
+SCREEN 1: DASHBOARD LAYOUT
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│ 🍳 PantryChef                                      [👤] [🔔] [☀️]  │
+├─────────────────────────────────────────────────────────────────────┤
+│                                                                     │
+│  ┌───────────┐ ┌─────────────────────────────────┐ ┌───────────┐  │
+│  │           │ │ 🔍 [Search ingredients...] [🔎] │ │           │  │
+│  │           │ │                                 │ │ TRENDING  │  │
+│  │   YOUR    │ │  ┌─────────────┐ ┌──────────┐  │ │ IN NIGERIA│  │
+│  │  PANTRY   │ │  │Jollof Rice  │ │Efo Riro  │  │ │ ────────  │  │
+│  │ ────────  │ │  │▓▓▓▓▓▓▓▓▓▓▓▓ │ │▓▓▓▓▓▓▓▓▓ │  │ │ • Suya    │  │
+│  │ • Rice    │ │  │45 mins      │ │50 mins   │  │ │ • Moi Moi │  │
+│  │ • Chicken │ │  └─────────────┘ └──────────┘  │ │ • Pounded │  │
+│  │ • Pepper  │ │                                 │ │   Yam     │  │
+│  │ • Tomatoes│ │  ┌─────────────┐ ┌──────────┐  │ │           │  │
+│  │ • Onions  │ │  │Fried Rice   │ │ Beans &  │  │ │           │  │
+│  │ • Beans   │ │  │▓▓▓▓▓▓▓▓▓▓▓▓ │ │Plantain  │  │ │NUTRITION  │  │
+│  │ • Garri   │ │  │55 mins      │ │70 mins   │  │ │ CALCULATOR│  │
+│  │           │ │  └─────────────┘ └──────────┘  │ │ ────────  │  │
+│  │ [Manage]  │ │                                 │ │ Meal:     │  │
+│  │           │ │    [VIEW ALL RECIPES →]         │ │ [Select]  │  │
+│  │NAIJA TIPS:│ │                                 │ │ Calories: │  │
+│  │• Store    │ │                                 │ │ [450]     │  │
+│  │  garri in │ │                                 │ │ Carbs:    │  │
+│  │  airtight │ │                                 │ │ [65g]     │  │
+│  │  containers│ │                                 │ │ Protein:  │  │
+│  │           │ │                                 │ │ [22g]     │  │
+│  └───────────┘ └─────────────────────────────────┘ └───────────┘  │
+│                                                                     │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+KEY DETAILS:
+
+• Overall layout: 3-column grid (25% | 50% | 25%)
+• Header: Full width, 70px height, fixed position
+• Logo: Left aligned, 180px width with text and icon
+• User controls: Right aligned, 3 icons (profile, notifications, dark mode)
+• Left sidebar (Pantry): 256px width, white background, shadow on right edge
+• Pantry title: "YOUR PANTRY" 16px bold, green color
+• Pantry list: Bulleted, 14px, each item draggable (hover shows grab cursor)
+• Manage button: 224px × 36px, outlined green button
+• Tips section: "NAIJA TIPS:" heading, 14px tips with bullet points
+• Center column (Main): 512px width
+• Search bar: 448px width, 48px height, centered with 32px top margin
+• Recipe grid: 2×2 grid, each card 224px × 200px, 16px gap
+• Recipe cards: Image top 112px, title and time below
+• "VIEW ALL" button: 448px × 44px, centered, green filled button
+• Right sidebar: 256px width
+• "TRENDING IN NIGERIA" heading with underline
+• Trending list: Bulleted with Nigerian food names
+• Nutrition calculator: Card with input fields and results
+• Calculator inputs: Dropdown for meal type, number inputs for values
+• All panels have 16px padding internally
+
+SCREEN 2: RECIPE DETAILS (DESKTOP VERSION)
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│ 🍳 PantryChef < Recipes < Chicken Jollof         [👤][🔔][☀️]     │
+├─────────────────────────────────────────────────────────────────────┤
+│                                                                     │
+│  ┌─────────────────────────────────────────────────────────────┐   │
+│  │ [Jollof Rice Hero Image - 976px × 400px]                   │   │
+│  └─────────────────────────────────────────────────────────────┘   │
+│                                                                     │
+│  ┌───────────────┐ ┌─────────────────────────┐ ┌──────────────┐   │
+│  │               │ │ CHICKEN JOLLOF RICE     │ │              │   │
+│  │               │ │ Nigerian • Main • Spicy │ │   [❤️ SAVE]  │   │
+│  │               │ │ ⏱ 45m 👥 4 🔥 Medium   │ │   [📤 SHARE] │   │
+│  │               │ │                         │ │   [🖨️ PRINT] │   │
+│  │  INGREDIENTS  │ │ ─────────────────────── │ │              │   │
+│  │ ────────────  │ │ [ING][METHOD][NUTRITION]│ │  NUTRITION   │   │
+│  │ • Rice 2 cups │ │                         │ │ ───────────  │   │
+│  │   (1 derica)  │ │ 1. Heat oil in pot...   │ │ Calories:    │   │
+│  │ • Chicken     │ │ 2. Fry chicken until... │ │ 450 (22% DV) │   │
+│  │   500g        │ │ 3. Blend tomatoes...    │ │              │   │
+│  │ • Tomatoes 4  │ │ 4. Add rice and...      │ │ ▓▓▓▓▓▓▓▓▓▓▓▓ │   │
+│  │ • Pepper 2    │ │ 5. Cook on low heat...  │ │ Carbs 65g    │   │
+│  │ • Onion 1     │ │ 6. Serve hot with...    │ │ Protein 22g  │   │
+│  │ • Oil 3 tbsp  │ │                         │ │ Fat 15g      │   │
+│  │ • Stock 2 cups│ │                         │ │              │   │
+│  │               │ │                         │ │    [🎥 WATCH │   │
+│  │ [✅ HAVE ALL] │ │  Serving Tips:          │ │     VIDEO]   │   │
+│  │ [📝 MISSING 2]│ │  • Best with fried...   │ │              │   │
+│  │               │ │  • Add extra pepper...  │ │              │   │
+│  └───────────────┘ └─────────────────────────┘ └──────────────┘   │
+│                                                                     │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+KEY DETAILS:
+
+• Breadcrumb navigation: Below header shows path "PantryChef < Recipes < Chicken Jollof"
+• Hero image: Full content width, 976px × 400px, 16:6.5 ratio
+• 3-column layout below image: 25% | 50% | 25%
+• Left column: Ingredients list, fixed position when scrolling
+• Local measurement in parentheses: "(1 derica)"
+• Ingredient action buttons centered at bottom of left column
+• Center column: Main content with recipe title, tags, stats
+• Tab navigation centered below stats
+• Method steps: Numbered list, 16px line height, 24px margin between steps
+• Serving tips: Italicized section with bullet points
+• Right column: Nutrition summary card, sticky position
+• Nutrition visual: Horizontal bar chart showing macronutrient distribution
+• Video button: 176px × 44px, centered in right column
+• Interactive elements: Tabs switch content without page reload, ingredients have checkboxes, nutrition chart is interactive on hover
+
+SCREEN 3: PANTRY MANAGEMENT MODAL (OVERLAY)
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│                                                                     │
+│                  ┌─────────────────────────────┐                    │
+│                  │    MANAGE YOUR PANTRY       │                    │
+│                  │ ─────────────────────────── │                    │
+│                  │ Search: [🔍                ] │                    │
+│                  │                             │                    │
+│                  │ COMMON INGREDIENTS:         │                    │
+│                  │ ┌───┐ ┌───┐ ┌───┐ ┌───┐    │                    │
+│                  │ │Rice│ │Bea │ │Oil│ │Sal│    │                    │
+│                  │ └───┘ └───┘ └───┘ └───┘    │                    │
+│                  │ ┌───┐ ┌───┐ ┌───┐ ┌───┐    │                    │
+│                  │ │Chi │ │Tom │ │Oni│ │Gar│    │                    │
+│                  │ └───┘ └───┘ └───┘ └───┘    │                    │
+│                  │                             │                    │
+│                  │ YOUR PANTRY:                │                    │
+│                  │ ┌───────────┐ ┌──────────┐  │                    │
+│                  │ │ Rice      │ │ Chicken  │  │                    │
+│                  │ │ 2 cups    │ │ 500g     │  │                    │
+│                  │ │ [✏️] [🗑️] │ │ [✏️] [🗑️]│  │                    │
+│                  │ └───────────┘ └──────────┘  │                    │
+│                  │                             │                    │
+│                  │ [SAVE]       [CANCEL]       │                    │
+│                  └─────────────────────────────┘                    │
+│                                                                     │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+KEY DETAILS:
+
+• Modal overlay: 600px × 700px, centered, semi-transparent backdrop
+• Modal header: "MANAGE YOUR PANTRY" 20px bold, centered
+• Search bar: 536px width, 44px height, centered
+• Common ingredients grid: 4×2 grid of buttons, each 120px × 60px
+• Each ingredient button: Rounded corners (8px), gray border, centered text
+• "YOUR PANTRY" section: Grid of current pantry items
+• Each pantry item card: 250px × 100px, shadow, padding
+• Item details: Name (bold), quantity (regular), two action buttons
+• Edit button: Pencil icon, 32px × 32px
+• Delete button: Trash icon, 32px × 32px, red on hover
+• Action buttons at bottom: Two buttons, 200px × 44px each
+• Save button: Green filled, Cancel button: gray outline
+• Modal closes on backdrop click or Cancel button
+
+INTERACTIVE STATES & ANIMATIONS:
+
+1. Button hover states: Background color darkens by 10%, scale transforms to 1.02
+2. Card hover states: Elevation increases (shadow deepens), subtle upward movement (translateY(-4px))
+3. Loading states: Skeleton screens with shimmer animation for images/text
+4. Tab transitions: Content fades in/out with 300ms opacity transition
+5. Mobile menu slide: Slides in from right with transform: translateX(0 → 100%)
+6. Ingredient chip removal: Shrinks horizontally with scaleX(1 → 0) animation
+7. Nutrition bars fill: Animated from 0% to target percentage over 1 second
+8. Dark mode transition: All colors transition smoothly over 400ms
+
+ACCESSIBILITY FEATURES (VISUALLY REPRESENTED):
+
+• Focus rings: Visible blue outline (2px, #0066CC) on all interactive elements
+• Alt text indicators: Decorative images marked with [] in wireframe
+• ARIA labels: Not visually shown but documented for implementation
+• Keyboard navigation: Tab order indicators (numbered dots in corner of focusable elements)
+• Contrast indicators: Color codes shown in specifications
+• Screen reader text: Visually hidden text elements represented as [SR: ...]
+
+NAIGERIAN-SPECIFIC ELEMENTS VISUALIZED:
+
+1. Measurement conversions in parentheses
+2. Nigerian ingredient names (tatashe, egusi, ugu)
+3. Local food terms in trending section
+4. Naija Tips section with culturally relevant advice
+5. WhatsApp share icon included in sharing options
+6. "Derica" measurement unit displayed alongside cups
+7. Nigerian flag colors in UI accents
+8. Local dish categories in filters
+
+RESPONSIVE BREAKPOINTS INDICATED:
+
+• Mobile: 320px - 767px (designs shown above)
+• Tablet: 768px - 1023px (intermediate layouts not shown but documented)
+• Desktop: 1024px+ (designs shown above)
+
+Every UI component has specified dimensions, colors, spacing, and interaction states. No element is left without detailed specification for implementation.
+
+🎨 Complete Penpot Walkthrough: Building Your Pantry Chef Component Library
+
+I will guide you through creating a professional, reusable component library in Penpot for your Pantry Chef app, focusing on the Nigerian elements from your wireframes. This is a true beginner's guide—we start from zero.
+
+📋 Phase 1: Foundation & Account Setup
+
+Step 1: Create Your Penpot Account
+
+1. Open your web browser and go to penpot.app.
+2. Click the "Sign up" button in the top-right corner.
+3. You can sign up with your email, a GitHub account, or a GitLab account. For simplicity, use your email.
+4. Fill in your name, email, and a password. Check your email to verify your account.
+5. Once verified, log in. You will arrive at the Penpot Dashboard.
+
+Step 2: Create Your First Project & File
+
+1. On the Dashboard, click the "+ New" button.
+2. Select "Project". Name it Pantry Chef - Final Project. Click "Create".
+3. Inside your new project, click "+ New" again, but this time select "Design File".
+4. Name this file 01 - Component Library & Styles. This is where we will build everything.
+5. Click on the new file to open the Penpot design editor. You now see a blank infinite canvas and toolbars on the left and top.
+
+---
+
+🎨 Phase 2: Defining Your Graphic Identity (Styles)
+
+Before making components, we define Styles. These are reusable colors and text settings.
+
+Step 3: Create Your Color Styles
+
+We will create the colors from your graphic identity.
+
+1. On the left sidebar, find and click the "Color" icon (a droplet). A panel opens.
+2. Click the "+" icon in that panel to create a new color.
+3. A color picker appears. Do the following:
+   • Name: Primary / Agriculture Green
+   • Hex Value: Type #008751
+   • Click "Create style".
+4. Repeat this process for all your colors:
+   • Secondary / Grain Yellow: #EAA908
+   • Accent / Pepper Red: #D90000
+   • Background / Pap White: #FFF9F0
+   • Text / Dark Gray: #1C1C1C
+   • Text / Light Gray: #666666
+   • State / Success Green: #008751E6 (This is the green with transparency, used for your ingredient chips).
+   • State / Error Red: #D90000E6
+
+Step 4: Create Your Text Styles
+
+Now, we define how your text will look.
+
+1. On the left sidebar, click the "Text" icon (a "T").
+2. Select the "Text" tool (or press T on your keyboard). Click anywhere on the canvas and type "Sample Text".
+3. With the text selected, use the top toolbar to format it:
+   • Font Family: Select "Open Sans" (Penpot has Google Fonts built-in).
+   • Weight: Regular (400).
+   • Size: 16px.
+4. On the right sidebar, in the "Text" section, click the "Create style" button.
+   • Name: Body / Open Sans / Regular 16
+5. Repeat to create your heading style:
+   • Create new text: "Heading Sample".
+   • Font Family: "Montserrat".
+   • Weight: SemiBold (600).
+   • Size: 22px.
+   • Create a new style named: Heading / Montserrat / SemiBold 22.
+6. (Optional but Recommended) Create a few more: Subheading / Montserrat / Medium 18, Caption / Open Sans / Regular 12.
+
+---
+
+⚙️ Phase 3: Building Your Core Nigerian UI Components
+
+Components are reusable pieces. We'll build them as "Components" so any change updates all copies.
+
+Step 5: Create the "Nigerian Measurement Label"
+
+This is the (approx. 1 derica) label from your wireframes.
+
+1. Select the "Rectangle" tool (or press R). Draw a small rectangle.
+2. On the right sidebar:
+   • Width: 120px, Height: 24px.
+   • Fill: Click the fill box, go to the "Library" tab, and select your Background / Pap White.
+   • Stroke (Border): Add a 1px border. Set the color to Text / Light Gray.
+   • Corners: Set all corner radii to 12px to make a pill shape.
+3. Select the "Text" tool. Click inside the rectangle and type approx. 1 derica.
+4. Format the text:
+   • Select the Caption / Regular 12 style from the right sidebar.
+   • Set the color to Text / Light Gray.
+   • Use the "Align" tools in the top bar to center the text perfectly inside the rectangle.
+5. Group It: Click and drag to select both the rectangle and the text. Right-click and choose "Group selection" (or press Ctrl/Cmd + G). Name the group measurement-label in the Layers panel (left sidebar).
+6. Make it a Component: With the group selected, click the "Component" icon in the top bar (two overlapping squares) or press Ctrl/Cmd + Alt + K. A purple diamond (♢) appears next to its layer name. You've created your first component!
+
+Step 6: Create the "Nigerian Ingredient Chip"
+
+The draggable chip like [rice] [×].
+
+1. Use the "Rectangle" tool to draw a shape: Width: 80px, Height: 32px.
+2. Style it:
+   • Fill: State / Success Green.
+   • Corners: 16px.
+3. Add text: Use the "Text" tool to add rice inside. Style it with Body / Regular 16, color white, centered.
+4. Add the "×" close button: Add a new text object with × to the right of the word. Make it white, size 18px.
+5. Group the background, name, and "×" together. Name the group ingredient-chip.
+6. Make it a Component.
+
+Step 7: Create the "Naija Tips Card"
+
+The section from your desktop wireframe.
+
+1. Draw a large Rectangle (Width: 250px, Height: 180px). Give it a light fill (Background / Pap White), a subtle stroke (light gray), and corner radius 8px.
+2. Add a Heading: "NAIJA TIPS:" using your Subheading style in Primary / Agriculture Green.
+3. Add Body Text: Use the "Text" tool to create a bullet list:
+   • Store garri in airtight containers
+   • Keep onions away from potatoes
+   Format with your Body style.
+4. Group all elements and name it tip-card.
+5. Make it a Component.
+
+---
+
+📦 Phase 4: Organizing into a Library & Using Components
+
+Step 8: Create a "Library" and Publish Your Components
+
+1. On the top bar, click "Libraries" (the bookshelf icon).
+2. In the panel, click "Create new library".
+3. Name it Pantry Chef UI Kit. Click "Create".
+4. You will see your three components listed. Ensure the toggle next to each is ON (blue). This publishes them to the library, making them available in all your project files.
+5. Critical Step: Click the "Publish" button in the Libraries panel. Add a version note like "v1.0 - Core Nigerian components" and publish.
+
+Step 9: Using Your Components in a New Wireframe
+
+Let's test it by building your mobile home screen.
+
+1. Go back to your project dashboard (Esc key or use the breadcrumb trail).
+2. Create a New Design File. Name it 02 - Mobile Home Screen.
+3. Access Your Library: On the left sidebar, click the "Assets" tab (the cube icon). You will see your Pantry Chef UI Kit library with your three components inside!
+4. Drag and Drop: Simply drag the ingredient-chip component onto your canvas.
+5. Edit the Instance: You want it to say "chicken" not "rice". On the right sidebar, find the "Component" section. You will see a button to "Detach instance"—DO NOT CLICK THIS. Instead, look for the "Layers" section. Find the text layer named "rice", double-click it directly on the canvas, and change it to chicken. The component remains linked!
+6. Build the screen by adding rectangles for headers, images, and using your components where needed. Duplicate (Ctrl/Cmd + D) the ingredient chip to create the whole row.
+
+Step 10: Sharing for Collaboration (For Peer Review)
+
+1. In your 02 - Mobile Home Screen file, click the "Share" button in the top-right corner.
+2. A panel opens. Toggle "Share prototype" to ON.
+3. You can:
+   • Copy the link and share it with peers. They can view and comment without a Penpot account.
+   • Click "Invite people" to add team members by email. You can set them as "Viewer" or "Editor".
+
+---
+
+✅ Pro-Tips for Your Project Workflow
+
+• Naming is Key: Always name your layers and groups clearly in the Layers panel (e.g., bg-rectangle, title-text, close-button). This saves hours later.
+• Use Frames for Screens: For your mobile (320px) and desktop (1024px) wireframes, use the "Frame" tool (F). Set the exact width and height. This keeps everything organized.
+• Create More Components: As you build, turn any repeated element (buttons, navigation bars, recipe cards) into components. Your future self will thank you.
+• Updating a Component: Need to change the green chip color for all 50 chips in your designs? Just double-click to edit the original master component in your 01 - Component Library file, save, and watch every instance update automatically.
+
+You have now set up a scalable design system in Penpot. The strength of this method is maintainability. When you need to add a new Nigerian ingredient or tweak a color, you do it once in the library, and it updates across your entire project.
+
+Would you like to dive deeper into creating interactive prototypes in Penpot to demonstrate user flows, like tapping an ingredient chip to add it to the pantry?
+
+
+📋 Complete Trello Board Setup Guide: Pantry Chef Project
+
+I'll guide you through setting up your Trello board from scratch, turning the planning section of your proposal into actionable tasks. This is a meticulous step-by-step process from creating lists to adding detailed cards.
+
+📱 Phase 1: Board Structure & Initial Setup
+
+Step 1: Access & Confirm Your Board
+
+1. Open the Trello mobile app on your phone.
+2. Log in with the account you used to create the board.
+3. Your boards are usually on the home screen. Tap on the board named "pantrychefproject". If you don't see it, tap your profile icon or the "Boards" tab at the bottom to see all your boards.
+4. You should now see a blank board with a default "To Do", "Doing", "Done" list. We will replace these.
+
+Step 2: Create the Six Core Lists
+
+We will create the six lists exactly as specified in your proposal.
+
+1. On your board, find the "Add a list" button or area. It's usually at the far right of the lists or has a "+" icon.
+2. Tap to add a new list.
+3. For the Title, type: 📥 Backlog: All Potential Features
+4. Tap "Add List" or the checkmark.
+5. Repeat this process to create the next five lists in this exact order:
+   • 🗓️ This Week: Tasks for Current Week
+   • 🔨 In Progress: Currently Working On
+   • 🧪 Testing: Needs Testing/Review
+   • ✅ Done: Completed Tasks
+   • 🚧 Blocked: Issues Needing Help
+6. Delete the default lists: Press and hold on the default "To Do" list. An option menu should appear. Look for "Archive List" or "Delete" and confirm. Do this for "Doing" and "Done".
+
+Your board now has the correct structure. It should look like this from left to right: Backlog → This Week → In Progress → Testing → Done → Blocked.
+
+---
+
+✨ Phase 2: Populating the Backlog with Initial Cards
+
+Now, we'll create the initial cards you specified. We'll put them all in the Backlog list first.
+
+Step 3: Create Your First Card from the Proposal
+
+1. Tap the "Add a card" button under the 📥 Backlog list.
+2. Type the exact title: Design mobile wireframe
+3. Tap "Add" or the checkmark to create the card.
+4. IMPORTANT: Do NOT just tap "Add" and move on. We need to add details. Tap on the newly created Design mobile wireframe card to open it.
+
+Step 4: Add Critical Details to the First Card (The Template)
+
+Inside the card, we add descriptions, checklists, and labels. This turns a vague task into an actionable plan.
+
+1. Add a Description: Tap on "Add description..." and paste this detailed description which aligns with your wireframe document:
+   "Create the 4 key mobile screens (320px) in Penpot: 1) Home/Landing, 2) Search/Results, 3) Recipe Details, 4) Nutrition Tab. Include all Nigerian-specific elements: ingredient chips, 'derica' conversion labels, Naija tips section, and the bottom navigation bar. Ensure all spacing, colors (#008751, #EAA908), and fonts (Montserrat, Open Sans) match the graphic identity spec."
+2. Add a Checklist: Tap the "Checklist" button (icon looks like a checkbox).
+   • Title it: Subtasks
+   • Tap "Add".
+   • Now, add these items one by one by typing and tapping "Add":
+     • Set up Penpot file with 320px frame
+     • Create component for Nigerian measurement label
+     • Design Home screen layout
+     • Design Search screen with filter chips
+     • Design Recipe Details with tab navigation
+     • Design Nutrition tab with macro circles
+     • Review against wireframe text specs
+3. Add a Label (Color Code): Tap the "Label" button. Choose a color that represents the task type. I recommend:
+   • Tap "Green" for this card, as it's a Design task. You can rename the label. Tap on the green label after adding it and change its name to Design.
+4. Set a Due Date (Optional but Good Practice): Tap the "Due Date" button. Based on your Week 5 schedule, set it for the end of your first week (e.g., Sun, Feb 11).
+5. Close the Card: Tap the "X" or back arrow to save and return to the board.
+
+Step 5: Create the Remaining Initial Cards
+
+Repeat Step 3 and Step 4 for each of the other initial tasks from your proposal. Use the following specifications for each card to ensure no key detail is missed:
+
+1. Card Title: Set up API keys
+   • Description: "Register for and secure API keys for TheMealDB and Edamam Nutrition API. Store keys securely in environment configuration, NOT in source code. Document the process in README."
+   • Checklist: Create accounts on both platforms, Generate API keys, Set up config.js file with placeholders, Add config.js to .gitignore.
+   • Label: Purple → Rename to API/Backend.
+2. Card Title: Create measurement conversion table for Nigerian units
+   • Description: "Build a JavaScript object/table mapping standard units (cups, grams) to common Nigerian units (derica, mudu, cooking spoon). Include clear approximations and disclaimers. Implement in measurementConverter.js module."
+   • Checklist: Research standard conversions for rice, beans, garri, Create JS object structure, Add conversion function (e.g., cupsToDerica()), Add UI disclaimer text.
+   • Label: Blue → Rename to Logic.
+3. Card Title: Test with slow internet (typical Lagos scenario)
+   • Description: "Simulate 3G or slow network speeds to optimize performance. Implement lazy loading for images, skeleton screens, and cache frequent search results. Test actual loading times."
+   • Checklist: Use Chrome DevTools to throttle network to 'Slow 3G', Audit image sizes and compress, Implement loading skeleton for recipe grid, Test API call timeouts and error states.
+   • Label: Orange → Rename to Testing.
+4. Card Title: Implement error handling for API failures
+   • Description: "Create user-friendly error messages for common failures: no network, API limit reached, recipe not found. Ensure UI does not break. Log errors to console in development."
+   • Checklist: Wrap fetch calls in try-catch blocks, Design error UI components, Create fallback mock data for demo, Handle HTTP status codes (404, 429, 500).
+   • Label: Red → Rename to Critical Bug.
+5. Card Title: Add alt text to all images
+   • Description: "Write descriptive, meaningful alt text for every <img> element to meet WCAG accessibility standards. For recipe images, describe the dish, not just the filename."
+   • Checklist: Audit all HTML for <img> tags, Write alt text for decorative images (alt=""), Write descriptive alt text for recipe photos, Verify with accessibility audit tool.
+   • Label: Yellow → Rename to Accessibility.
+6. Card Title: Test color contrast for accessibility
+   • Description: "Use browser DevTools or contrast checker to ensure all text (especially on colored buttons like green #008751) meets WCAG AA minimum contrast ratio of 4.5:1 for normal text."
+   • Checklist: Test primary button text (white on #008751), Test secondary button text, Test caption text on light gray, Document contrast ratios in README.
+   • Label: Yellow → Rename to Accessibility.
+7. Card Title: Create loading states for slow networks
+   • Description: "Design and implement skeleton screens and loading spinners for: 1) initial recipe load, 2) nutrition data fetch, 3) image loading. Use CSS animations for smooth transitions."
+   • Checklist: Design skeleton UI in Penpot, Create CSS keyframe animations, Implement dynamic skeleton for recipe cards, Test with network throttling.
+   • Label: Design (Green) and Frontend (Sky Blue - create this new label).
+
+---
+
+🔄 Phase 3: Workflow & Advanced Organization
+
+Step 6: Set Up Your "This Week" List (Week 5 Schedule)
+
+Now, let's simulate the start of your project by moving Week 5 tasks from the Backlog to "This Week".
+
+1. Look at your Week 5 schedule from your proposal. The first week's deliverables were:
+   • Set up Trello & GitHub
+   • Complete HTML structure for 4 pages
+   • Basic CSS layout & mobile-first design
+   • Integrate TheMealDB API for basic search
+   • Implement ingredient input form
+   • Test on multiple devices
+2. Create Cards for these in "This Week":
+   • Create a new card in 🗓️ This Week titled Set up GitHub repository.
+   • Create another titled Build core HTML structure (4 pages).
+   • Continue for the other tasks. You can copy details from relevant Backlog cards or write new ones.
+3. Drag Cards from Backlog: For tasks like "Design mobile wireframe" which is a Week 5 task, press, hold, and drag the card from the Backlog list and drop it into the This Week list.
+
+Step 7: Using the Board Day-to-Day (The Workflow)
+
+This is how you use the board during development:
+
+1. Each morning: Look at This Week. Decide what to work on.
+2. Start a task: Drag a card from This Week to In Progress.
+3. While working: Open the card. Use the checklist to track your steps. Add comments if you hit a small snag.
+4. Finish coding: Drag the card from In Progress to Testing.
+5. Test the feature: On a different device/browser, test the feature. If it passes, drag it to Done. If it fails, add a comment on what's wrong and move it back to This Week or In Progress.
+6. Get stuck? If you're blocked (e.g., waiting for an API key, confused by a bug), drag the card to Blocked. Add a comment explaining exactly what help you need. This is crucial for peer review.
+
+Step 8: Adding More Cards & Using Power-Ups (Optional but Powerful)
+
+• To Add More Cards: As you think of new tasks (e.g., "Deploy to GitHub Pages", "Write project documentation"), always add them first to the Backlog. Then, prioritize them into This Week later.
+• Using Power-Ups (Desktop Recommended): On the Trello website, click "Show Menu" → "Power-Ups". Enable:
+  • "Calendar": Visualize due dates.
+  • "Custom Fields": Add fields like Priority (High/Med/Low) or Estimated Hours.
+  • "GitHub": Link commits to cards (advanced).
+
+Your Trello board is now a living, breathing project tracker. The initial cards you created cover the major technical and Nigerian-specific challenges you anticipated. As you work, you will add more cards, break big cards into smaller ones, and move them across the board, which gives you and anyone reviewing your project a crystal-clear view of your progress.
+
+Final Step: To get the link for your PDF submission, open your board on the Trello website, click "Share" in the top-right, and copy the board link. It will look like: https://trello.com/b/YourBoardID/pantrychefproject.
+15. README.md (Project Documentation)
+
+```markdown
+# Pantry Chef - Nigerian Recipe Finder & Nutrition Analyzer
+
+**Pantry Chef** is a web application that helps users solve the "what's for dinner?" problem by finding recipes based on ingredients they already have, with a focus on Nigerian cuisine and nutritional analysis.
+
+![Pantry Chef Logo](assets/icons/pot-icon.svg)
+
+## 🎯 **Project Overview**
+
+### Problem Statement
+As a Nigerian, there are times we look inside our kitchen cabinet, see rice, beans, crayfish, and other ingredients, but still end up not knowing what to cook. This leads to food waste, unnecessary spending, and unhealthy eating choices.
+
+### Solution
+Pantry Chef allows users to:
+- Input ingredients they have at home
+- Get recipe suggestions that use those ingredients
+- View detailed nutritional information for informed dietary choices
+- Access Nigerian-specific cooking tips and measurements
+
+### Target Audience
+- Working-class Lagosians with busy schedules
+- University students on tight budgets
+- Health-conscious Nigerians monitoring their diets
+- Newlyweds learning to cook with available ingredients
+- Small chop businesses looking for new recipes
+
+## 🚀 **Features**
+
+### Core Features
+1. **Ingredient Input with Auto-suggest** - Type ingredients like "garri", "egusi", "plantain"
+2. **Multiple Selection Mode** - Visual pantry display for ingredient selection
+3. **Recipe Search with Filters** - Filter by meal type, cooking time, Nigerian recipes only
+4. **Recipe Display Grid** - Responsive grid with images, ratings, and cooking times
+5. **Recipe Details Page** - Full instructions, measurements, YouTube video links
+6. **Nutritional Analysis Dashboard** - Calories, macros, and micronutrients with visual charts
+7. **Local Measurements Conversion** - Convert cups/grams to Nigerian units (derica, mudu, cooking spoon)
+8. **Save Favorite Recipes** - LocalStorage for offline access
+9. **Share Functionality** - Share via WhatsApp, Twitter, or copy link
+10. **Pantry Management Tips** - Nigerian-specific food storage advice
+11. **Print Recipe Function** - Printer-friendly recipe format
+12. **Dark Mode Toggle** - For night cooking sessions
+
+### Nigerian-Specific Features
+- 🇳🇬 Nigerian measurement conversions
+- 🛒 Market shopping tips for Nigerian ingredients
+- 🌡️ Food storage advice for tropical climate
+- 💰 Budget cooking tips for Nigerian economy
+- ⚡ Power outage cooking solutions
+- 🍅 Seasonal cooking guide for Nigeria
+
+## 🛠️ **Technology Stack**
+
+### Frontend
+- **HTML5** - Semantic markup, W3C compliant
+- **CSS3** - Custom properties, Flexbox, Grid, animations
+- **JavaScript (ES6+)** - Vanilla JS, ES Modules, modern syntax
+- **No Frameworks** - Pure vanilla implementation as per requirements
+
+### APIs
+1. **TheMealDB API** - Recipe search by ingredient, instructions, images
+2. **Edamam Nutrition Analysis API** - Nutritional data for recipes
+3. **Both APIs have free tiers suitable for development**
+
+### Development Tools
+- **Git** - Version control
+- **GitHub Pages** - Deployment
+- **Penpot** - Wireframing and design
+- **Trello** - Project management
+- **ESLint** - Code quality
+- **W3C Validators** - Standards compliance
+
+## 🎨 **Design System**
+
+### Color Palette (Nigerian Theme)
+- **Primary Green** `#008751` - Agriculture/vegetables
+- **Secondary Yellow** `#EAA908` - Grain/garri
+- **Accent Red** `#D90000` - Pepper/tomatoes
+- **Background Off-white** `#FFF9F0` - Pap/akamu
+- **Text Dark Gray** `#1C1C1C` - Readability
+
+### Typography
+- **Headings**: 'Montserrat', sans-serif (clean, modern)
+- **Body**: 'Open Sans', sans-serif (highly readable)
+- **Nigerian Touch**: ₦ symbol for pricing features
+
+### Icons
+- Traditional Nigerian cooking pot (okpo) with steam
+- Alternative: Three spoons arranged like Nigerian flag (green, white, green)
+
+## 🔧 **Setup & Installation**
+
+### Prerequisites
+- Modern web browser (Chrome 80+, Firefox 75+, Safari 13+)
+- Text editor (VS Code, Sublime Text, etc.)
+- Git for version control
+- API keys for TheMealDB and Edamam (free tier available)
+
+### Local Development
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/yourusername/pantry-chef.git
+   cd pantry-chef
+```
+
+1. Get API Keys
+   • Register at TheMealDB (no key needed for basic use)
+   • Register at Edamam for nutrition API key
+   • Update js/apiService.js with your Edamam app ID and key
+2. Open in Browser
+   • Simply open index.html in your browser
+   • Or use a local server:
+     ```bash
+     python -m http.server 8000
+     ```
+     Then visit http://localhost:8000
+
+Deployment to GitHub Pages
+
+1. Create GitHub repository
+2. Push code to GitHub
+   ```bash
+   git add .
+   git commit -m "Initial commit"
+   git branch -M main
+   git remote add origin https://github.com/yourusername/pantry-chef.git
+   git push -u origin main
+   ```
+3. Enable GitHub Pages
+   • Go to repository Settings → Pages
+   • Select source: main branch
+   • Select folder: /(root)
+   • Save and wait for deployment
+   • Your site will be at: https://yourusername.github.io/pantry-chef
+
+📱 Responsive Design
+
+Breakpoints
+
+• Mobile: 320px - 767px (Primary focus)
+• Tablet: 768px - 1023px
+• Desktop: 1024px+
+
+Mobile-First Approach
+
+• 80% of Nigerian users access via mobile
+• Touch-optimized interfaces (44px minimum touch targets)
+• Reduced data usage for slow networks
+• Offline functionality with LocalStorage
+
+🔌 API Integration
+
+TheMealDB API
+
+```javascript
+// Endpoints used:
+- filter.php?i={ingredient}  // Search by ingredient
+- lookup.php?i={id}          // Get recipe details
+- search.php?s={name}        // Search by name
+- random.php                 // Random recipe
+```
+
+Edamam Nutrition API
+
+```javascript
+// Endpoint:
+- /api/nutrition-data?app_id=ID&app_key=KEY&ingr={ingredientString}
+```
+
+API Error Handling
+
+• Network timeout detection (10 seconds)
+• Cache for Nigerian slow internet
+• Fallback mock data when APIs fail
+• User-friendly error messages
+
+💾 LocalStorage Implementation
+
+Data Stored
+
+• Favorites: Saved recipe IDs with metadata
+• Pantry: User's ingredient inventory
+• Settings: User preferences (dark mode, units, etc.)
+• Recent Searches: Last 10 search queries
+• Meal Plans: Weekly meal planning data
+
+Storage Optimization
+
+• Compression for quota management
+• Auto-cleanup of old data
+• Backup and restore functionality
+• Nigerian internet optimization
+
+🇳🇬 Nigerian-Specific Implementation
+
+Measurement Conversions
+
+```javascript
+// Examples:
+1 cup rice = ½ derica
+1 tablespoon = 1 cooking spoon
+1 liter = 4 milk cups
+250g tomatoes = 4-5 medium
+```
+
+Food Storage Database
+
+• Tropical climate preservation methods
+• Market shopping tips
+• Seasonal availability guide
+• Power outage cooking solutions
+
+Cultural Considerations
+
+• Nigerian ingredient name variations (ugu/fluted pumpkin)
+• Traditional cooking methods
+• Festival and seasonal cooking
+• Budget-friendly adaptations
+
+🧪 Testing
+
+Browser Compatibility
+
+• ✅ Chrome 80+
+• ✅ Firefox 75+
+• ✅ Safari 13+
+• ✅ Edge 80+
+• ✅ Mobile browsers (Chrome Mobile, Safari Mobile)
+
+Validation
+
+• HTML: W3C Validator compliant
+• CSS: W3C CSS Validator compliant
+• JavaScript: ESLint compliant
+• Accessibility: WCAG 2.1 AA compliant
+• Performance: Page weight < 500KB
+
+Manual Testing Checklist
+
+• All links work correctly
+• Forms submit without errors
+• Responsive design works on all screen sizes
+• Dark mode toggle functions
+• Recipes load with skeleton UI
+• Nutrition data displays correctly
+• Nigerian conversions work
+• Favorites save and load
+• Sharing functionality works
+• Print functionality works
+• Offline functionality works
+
+📊 Performance Optimization
+
+For Nigerian Internet Conditions
+
+• Lazy loading for images
+• Skeleton screens for perceived performance
+• API response caching (1 hour TTL)
+• LocalStorage compression
+• Reduced animation for low-powered devices
+• Data saver mode option
+
+Page Weight Targets
+
+• Total page weight: < 500KB
+• CSS: < 50KB
+• JavaScript: < 200KB
+• Images: < 250KB
+• Fonts: < 50KB
+
+♿ Accessibility
+
+WCAG 2.1 AA Compliance
+
+• Color contrast > 4.5:1 for normal text
+• Keyboard navigation support
+• Screen reader compatibility
+• ARIA labels for interactive elements
+• Focus indicators for all interactive elements
+• Alt text for all images
+
+Nigerian Accessibility Considerations
+
+• High contrast mode for older devices
+• Larger text options for readability
+• Reduced motion preferences respected
+• Touch target size minimum 44px
+
+📈 Future Enhancements
+
+Planned Features
+
+1. User Accounts - Sync across devices
+2. Meal Planning - Weekly meal schedules
+3. Grocery List Generator - From selected recipes
+4. Nigerian Market Integration - Find ingredient prices
+5. Video Tutorials - Nigerian cooking techniques
+6. Community Recipes - User-submitted recipes
+7. Dietary Restrictions - Filter for allergies/preferences
+8. Cooking Timer - Built-in kitchen timer
+
+Technical Improvements
+
+1. Service Worker - Full offline capability
+2. PWA Installation - Install as mobile app
+3. WebSocket - Real-time notifications
+4. IndexedDB - Larger local storage
+5. WebGL - 3D cooking visualizations
+
+👥 Contributing
+
+Development Workflow
+
+1. Fork the repository
+2. Create a feature branch
+   ```bash
+   git checkout -b feature/amazing-feature
+   ```
+3. Commit changes
+   ```bash
+   git commit -m 'Add amazing feature'
+   ```
+4. Push to branch
+   ```bash
+   git push origin feature/amazing-feature
+   ```
+5. Open a Pull Request
+
+Code Standards
+
+• ESLint configuration provided
+• Semantic HTML required
+• Mobile-first CSS
+• ES6+ JavaScript with modules
+• Comment complex logic
+• Test before submitting
+
+📝 Documentation
+
+Code Documentation
+
+• JSDoc comments for all functions
+• README files for each module
+• Inline comments for complex logic
+• API documentation in code
+
+User Documentation
+
+• Tooltips for all interactive elements
+• Help sections within the app
+• Video tutorials for complex features
+• FAQ section for common questions
+
+🐛 Troubleshooting
+
+Common Issues
+
+API Not Working
+
+1. Check internet connection
+2. Verify API keys are correctly set
+3. Check browser console for errors
+4. Try the fallback mock data mode
+
+LocalStorage Full
+
+1. App will automatically clear old data
+2. Manual clear available in settings
+3. Export data before clearing
+
+Performance Issues
+
+1. Enable data saver mode
+2. Disable animations in settings
+3. Clear browser cache
+4. Use lighter theme (dark mode uses more battery)
+
+Nigerian Measurements Incorrect
+
+1. Measurements are approximate
+2. Market sizes vary by region
+3. Adjust to personal preference
+4. Report issues for specific conversions
+
+Debug Mode
+
+Enable debug mode by adding ?debug=true to URL:
+
+```javascript
+// Will show:
+- API request/response logs
+- LocalStorage operations
+- Performance metrics
+- Nigerian conversion calculations
+```

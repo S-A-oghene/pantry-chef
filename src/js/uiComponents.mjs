@@ -15,8 +15,16 @@ export function renderRecipeCards(
     const card = document.createElement("div");
     card.className = "recipe-card";
     card.dataset.id = recipe.id;
+    card.role = "listitem";
+    card.setAttribute("tabindex", "0");
     card.addEventListener("click", () => {
       window.location.href = getUrl(`/recipe/detail.html?id=${recipe.id}`);
+    });
+    card.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        window.location.href = getUrl(`/recipe/detail.html?id=${recipe.id}`);
+      }
     });
     card.innerHTML = `
       <img src="${recipe.image}" alt="${recipe.name}" loading="lazy">

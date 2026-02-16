@@ -55,40 +55,92 @@ export async function initSearch() {
     }
   }
 
-  // Filter buttons
+  // Filter buttons with full filter logic
+  let selectedFilters = { category: null, mealType: null, time: null };
+  
   document.querySelectorAll(".filter-btn").forEach((btn) => {
     btn.addEventListener("click", () => {
-      document
-        .querySelectorAll(".filter-btn")
-        .forEach((b) => b.classList.remove("active"));
-      btn.classList.add("active");
-      // Here you would apply filter logic (e.g., re-fetch with new criteria)
-      // For demo, just reload with category filter
-      const filter = btn.textContent.trim();
-      if (filter === "Nigerian") {
-        window.location.href = getUrl("/recipe/?category=Nigerian");
-      } else if (filter === "All") {
+      const filterValue = btn.textContent.trim();
+      
+      // Determine filter type
+      if (filterValue === "All") {
+        // Reset all filters
+        selectedFilters = { category: null, mealType: null, time: null };
+        document.querySelectorAll(".filter-btn").forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
         window.location.href = getUrl("/recipe/");
+      } else if (["Breakfast", "Lunch", "Dinner"].includes(filterValue)) {
+        // Meal type filter
+        selectedFilters.mealType = filterValue.toLowerCase();
+        updateActiveButtons(btn);
+        reloadWithFilters();
+      } else if (["<30min", "<60min"].includes(filterValue)) {
+        // Time filter
+        selectedFilters.time = filterValue;
+        updateActiveButtons(btn);
+        reloadWithFilters();
+      } else if (filterValue === "Nigerian") {
+        // Country filter
+        selectedFilters.category = "Nigerian";
+        updateActiveButtons(btn);
+        reloadWithFilters();
       }
     });
+    btn.setAttribute("role", "button");
+    btn.setAttribute("aria-pressed", "false");
   });
+  
+  function updateActiveButtons(activeBtn) {
+    document.querySelectorAll(".filter-btn").forEach((b) => {
+      const isActive = b === activeBtn;
+      b.classList.toggle("active", isActive);
+      b.setAttribute("aria-pressed", isActive);
+    });
+  }
+  
+  function reloadWithFilters() {
+    const params = new URLSearchParams();
+    if (ingredientsParam) params.set("ingredients", ingredientsParam);
+    if (selectedFilters.category) params.set("category", selectedFilters.category);
+    if (selectedFilters.mealType) params.set("mealType", selectedFilters.mealType);
+    if (selectedFilters.time) params.set("time", selectedFilters.time);
+    const url = getUrl(`/recipe/?${params.toString()}`);
+    window.location.href = url;
+  }
 
-  // Load more (simulate)
-  document.getElementById("load-more")?.addEventListener("click", () => {
-    alert("Load more not implemented in demo.");
-  });
+  // Load more button with proper accessibility
+  const loadMoreBtn = document.getElementById("load-more");
+  if (loadMoreBtn) {
+    loadMoreBtn.setAttribute("aria-label", "Load more recipes");
+    loadMoreBtn.addEventListener("click", () => {
+      alert("More recipes would load here with full API integration.");
+    });
+  }
 
-  // Back button
-  document
-    .querySelector(".back-btn")
-    ?.addEventListener("click", () => {
+  // Back button with accessibility
+  const backBtn = document.querySelector(".back-btn");
+  if (backBtn) {
+    backBtn.setAttribute("aria-label", "Go back to previous page");
+    backBtn.addEventListener("click", () => {
       window.history.back();
     });
+  }
 
-  // Settings button
-  document
-    .querySelector(".settings-btn")
-    ?.addEventListener("click", () => {
-      alert("Settings not implemented yet.");
+  // Settings button with accessibility
+  const settingsBtn = document.querySelector(".settings-btn");
+  if (settingsBtn) {
+    settingsBtn.setAttribute("aria-label", "Advanced filters and sort options");
+    settingsBtn.addEventListener("click", () => {
+      alert("Advanced filter options coming soon.");
     });
+  }
+  
+  // Add ingredient button accessibility
+  const addIngBtn = document.querySelector(".add-ingredient-btn");
+  if (addIngBtn) {
+    addIngBtn.setAttribute("aria-label", "Add another ingredient to search");
+    addIngBtn.addEventListener("click", () => {
+      window.location.href = getUrl("/");
+    });
+  }
 }

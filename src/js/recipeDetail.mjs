@@ -15,8 +15,10 @@ export async function initDetail() {
     if (!recipe) throw new Error("Recipe not found");
 
     // Fill hero image and title
-    document.getElementById("hero-image").src = recipe.image;
-    document.getElementById("hero-image").alt = recipe.name;
+    const heroImage = document.getElementById("hero-image");
+    heroImage.src = recipe.image;
+    heroImage.alt = recipe.name;
+    heroImage.loading = "lazy";
     document.getElementById("recipe-title").textContent =
       recipe.name.toUpperCase();
 
@@ -44,18 +46,25 @@ export async function initDetail() {
       <span>🔥 Medium</span>
     `;
 
-    // Ingredients list
+    // Ingredients list with accessibility
     const ingredientsList = document.querySelector(".ingredients-list");
     ingredientsList.innerHTML = recipe.ingredients
-      .map((ing) => {
+      .map((ing, idx) => {
         const local = convertMeasurements(ing.measure, ing.name);
         return `<li>
-        <input type="checkbox">
-        <span>${ing.measure} ${ing.name}</span>
-        ${local ? `<span class="local-measure">(approx. ${local})</span>` : ""}
+        <input type="checkbox" id="ingredient-${idx}" aria-label="Mark ${ing.name} as obtained">
+        <label for="ingredient-${idx}"><span>${ing.measure} ${ing.name}</span></label>
+        ${local ? `<span class="local-measure" title="Nigerian measurement conversion">(approx. ${local})</span>` : ""}
       </li>`;
       })
       .join("");
+    
+    // Set up check listeners
+    document.querySelectorAll(".ingredients-list input[type='checkbox']").forEach((input) => {
+      input.addEventListener("change", () => {
+        input.parentElement.classList.toggle("checked", input.checked);
+      });
+    });
 
     // Method
     const methodSteps = document.querySelector(".method-steps");
@@ -96,32 +105,42 @@ export async function initDetail() {
     // Animate progress bars after setting
     animateProgressBars();
 
-    // Back button
-    document
-      .querySelector(".back-btn")
-      ?.addEventListener("click", () => {
+    // Back button with accessibility
+    const backBtn = document.querySelector(".back-btn");
+    if (backBtn) {
+      backBtn.setAttribute("aria-label", "Go back to recipe list");
+      backBtn.addEventListener("click", () => {
         window.history.back();
-      });
-
-    // Favorite button
-    const favBtn = document.querySelector(".favorite-btn");
-    if (favBtn) {
-      favBtn.textContent = isFavorite(id) ? "❤️" : "🤍";
-      favBtn.addEventListener("click", () => {
-        addToFavorites(recipe);
-        favBtn.textContent = "❤️";
       });
     }
 
-    // Share buttons
+    // Favorite button with accessibility
+    const favBtn = document.querySelector(".favorite-btn");
+    if (favBtn) {
+      const isFav = isFavorite(id);
+      favBtn.textContent = isFav ? "❤️" : "🤍";
+      favBtn.setAttribute("aria-label", isFav ? "Remove from favorites" : "Add to favorites");
+      favBtn.setAttribute("aria-pressed", isFav);
+      favBtn.addEventListener("click", () => {
+        addToFavorites(recipe);
+        favBtn.textContent = "❤️";
+        favBtn.setAttribute("aria-label", "Remove from favorites");
+        favBtn.setAttribute("aria-pressed", "true");
+      });
+    }
+
+    // Share buttons with accessibility
     document.querySelectorAll(".share-btn, #share-bottom").forEach((btn) => {
+      btn.setAttribute("aria-label", "Share this recipe");
       btn.addEventListener("click", () => shareRecipe(recipe));
     });
 
-    // Print button
-    document
-      .getElementById("print-btn")
-      ?.addEventListener("click", () => printRecipe(recipe));
+    // Print button with accessibility
+    const printBtn = document.getElementById("print-btn");
+    if (printBtn) {
+      printBtn.setAttribute("aria-label", "Print this recipe");
+      printBtn.addEventListener("click", () => printRecipe(recipe));
+    }
 
     // Setup tabs
     setupTabs();
@@ -134,12 +153,57 @@ export async function initDetail() {
 function setupTabs() {
   const tabs = document.querySelectorAll(".tab");
   const contents = document.querySelectorAll(".tab-content");
+  
+  // Set up tab roles and initial state
+  tabs.forEach((tab, idx) => {
+    tab.setAttribute("role", "tab");
+    tab.setAttribute("aria-selected", idx === 0 ? "true" : "false");
+    tab.setAttribute("aria-controls", tab.dataset.tab + "-tab");
+    tab.setAttribute("tabindex", idx === 0 ? "0" : "-1");
+  });
+  
+  contents.forEach((content) => {
+    content.setAttribute("role", "tabpanel");
+    content.setAttribute("aria-labelledby", content.id.replace("-tab", ""));
+  });
+  
   tabs.forEach((tab) => {
     tab.addEventListener("click", () => {
-      tabs.forEach((t) => t.classList.remove("active"));
+      tabs.forEach((t) => {
+        t.classList.remove("active");
+        t.setAttribute("aria-selected", "false");
+        t.setAttribute("tabindex", "-1");
+      });
       tab.classList.add("active");
+      tab.setAttribute("aria-selected", "true");
+      tab.setAttribute("tabindex", "0");
+      
       contents.forEach((c) => c.classList.remove("active"));
-      document.getElementById(tab.dataset.tab + "-tab").classList.add("active");
+      const panel = document.getElementById(tab.dataset.tab + "-tab");
+      if (panel) panel.classList.add("active");
+    });
+
+    // Keyboard navigation (arrow keys)
+    tab.addEventListener("keydown", (e) => {
+      const allTabs = Array.from(tabs);
+      const currentIndex = allTabs.indexOf(tab);
+      let targetTab = null;
+
+      if (e.key === "ArrowRight") {
+        targetTab = allTabs[(currentIndex + 1) % allTabs.length];
+      } else if (e.key === "ArrowLeft") {
+        targetTab = allTabs[(currentIndex - 1 + allTabs.length) % allTabs.length];
+      } else if (e.key === "Home") {
+        targetTab = allTabs[0];
+      } else if (e.key === "End") {
+        targetTab = allTabs[allTabs.length - 1];
+      }
+
+      if (targetTab) {
+        e.preventDefault();
+        targetTab.click();
+        targetTab.focus();
+      }
     });
   });
 }

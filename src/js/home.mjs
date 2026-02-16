@@ -6,6 +6,7 @@ import {
 } from "./ingredientManager.mjs";
 import { ingredientMapping } from "./ingredientMap.mjs";
 import { openPantryModal } from "./pantryManager.mjs";
+import { getUrl } from "./navigationHelper.mjs";
 
 export async function initHome() {
   // Load popular recipes on mobile
@@ -44,10 +45,16 @@ export async function initHome() {
   const input = document.getElementById("ingredient-input");
   const suggestions = document.getElementById("suggestions");
   if (input && suggestions) {
+    // Add aria-autocomplete attributes
+    input.setAttribute("aria-autocomplete", "list");
+    input.setAttribute("aria-controls", "suggestions");
+    input.setAttribute("aria-expanded", "false");
+    
     input.addEventListener("input", (e) => {
-      const val = e.target.value.toLowerCase();
-      if (val.length < 2) {
+      const val = e.target.value.toLowerCase().trim();
+      if (val.length < 1) {
         suggestions.classList.remove("active");
+        input.setAttribute("aria-expanded", "false");
         return;
       }
       const matches = Object.keys(ingredientMapping)
@@ -55,20 +62,24 @@ export async function initHome() {
         .slice(0, 5);
       if (matches.length) {
         suggestions.innerHTML = matches
-          .map((m) => `<div class="suggestion-item">${m}</div>`)
+          .map((m) => `<div class="suggestion-item" role="option">${m}</div>`)
           .join("");
         suggestions.classList.add("active");
+        input.setAttribute("aria-expanded", "true");
       } else {
         suggestions.classList.remove("active");
+        input.setAttribute("aria-expanded", "false");
       }
     });
 
     suggestions.addEventListener("click", (e) => {
       if (e.target.classList.contains("suggestion-item")) {
-        const ingredient = e.target.textContent;
+        const ingredient = e.target.textContent.trim();
         addIngredient(ingredient);
         input.value = "";
         suggestions.classList.remove("active");
+        input.setAttribute("aria-expanded", "false");
+        input.focus();
       }
     });
   }
@@ -119,10 +130,26 @@ export async function initHome() {
     e.preventDefault();
     const ingredients = getSelectedIngredients();
     if (ingredients.length === 0) {
-      alert("Please add at least one ingredient.");
+      // Show error message to user
+      const input = document.getElementById("ingredient-input");
+      input?.setAttribute("aria-invalid", "true");
+      input?.setAttribute("aria-describedby", "ingredient-error");
+      
+      // Create error message if it doesn't exist
+      let errorMsg = document.getElementById("ingredient-error");
+      if (!errorMsg) {
+        errorMsg = document.createElement("div");
+        errorMsg.id = "ingredient-error";
+        errorMsg.className = "error-message";
+        errorMsg.role = "alert";
+        input?.parentElement?.appendChild(errorMsg);
+      }
+      errorMsg.textContent = "Please add at least one ingredient to search.";
+      errorMsg.style.display = "block";
+      input?.focus();
       return;
     }
-    window.location.href = `/recipe/?ingredients=${encodeURIComponent(ingredients.join(","))}`;
+    window.location.href = getUrl(`/recipe/?ingredients=${encodeURIComponent(ingredients.join(","))}`);
   });
 
   // View all recipes button

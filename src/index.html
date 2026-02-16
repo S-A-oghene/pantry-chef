@@ -56,30 +56,33 @@
       <!-- Mobile View -->
       <div class="mobile-view">
         <section class="search-section">
-          <form id="ingredient-form">
+          <form id="ingredient-form" role="search">
             <div class="search-wrapper">
               <input
                 type="text"
                 id="ingredient-input"
                 placeholder="Search ingredients... e.g. rice, chicken, pepper"
                 autocomplete="off"
+                aria-label="Search for ingredients"
+                required
               />
               <button type="submit" aria-label="Search">🔎</button>
             </div>
           </form>
-          <div id="suggestions" class="suggestions-box"></div>
-          <div id="selected-ingredients" class="selected-ingredients"></div>
+          <div id="suggestions" class="suggestions-box" role="listbox" aria-label="Ingredient suggestions"></div>
+          <div id="selected-ingredients" class="selected-ingredients" role="region" aria-label="Selected ingredients"></div>
           <button
             id="nigerian-specials"
-            class="btn-primary" 
+            class="btn-primary"
+            aria-label="Browse Nigerian specialty recipes"
           >
             📌 Nigerian Specials
           </button>
         </section>
 
-        <section class="popular">
-          <h2>POPULAR FOR LAGOS NOW</h2>
-          <div id="popular-recipes" class="recipe-grid mobile-grid"></div>
+        <section class="popular" aria-labelledby="popular-heading">
+          <h2 id="popular-heading">POPULAR FOR LAGOS NOW</h2>
+          <div id="popular-recipes" class="recipe-grid mobile-grid" role="list"></div>
         </section>
       </div>
 
@@ -152,17 +155,19 @@
     </main>
 
     <!-- Mobile Bottom Navigation (60px) -->
-    <nav class="bottom-nav mobile-only">
-      <a href="/" class="nav-item active" data-page="home"
-        >🏠<span>Home</span></a
-      >
-      <a href="/recipe/" class="nav-item" data-page="search"
-        >🔍<span>Search</span></a
-      >
-      <a href="/favorites/" class="nav-item" data-page="favorites"
-        >❤️<span>Faves</span></a
-      >
-      <a href="/tips/" class="nav-item" data-page="tips">💡<span>Tips</span></a>
+    <nav class="bottom-nav mobile-only" role="navigation" aria-label="Main navigation">
+      <a href="/" class="nav-item active" data-page="home" aria-label="Home page">
+        🏠<span>Home</span>
+      </a>
+      <a href="/recipe/" class="nav-item" data-page="search" aria-label="Search recipes">
+        🔍<span>Search</span>
+      </a>
+      <a href="/favorites/" class="nav-item" data-page="favorites" aria-label="My favorite recipes">
+        ❤️<span>Faves</span>
+      </a>
+      <a href="/tips/" class="nav-item" data-page="tips" aria-label="Pantry tips">
+        💡<span>Tips</span>
+      </a>
     </nav>
 
     <!-- Pantry Management Modal (hidden by default) -->
