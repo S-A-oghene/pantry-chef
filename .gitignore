@@ -1,0 +1,18 @@
+# dependencies
+node_modules/
+package-lock.json
+
+# build output
+dist/
+
+# environment / secrets
+.env
+src/js/config.mjs
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db

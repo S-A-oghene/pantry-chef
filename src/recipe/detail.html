@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Recipe – Pantry Chef</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Open+Sans:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <header class="detail-header">
+      <button class="back-btn">←</button>
+      <div>
+        <button class="favorite-btn">
+          ❤️
+        </button>
+        <button class="share-btn">📤</button>
+      </div>
+    </header>
+
+    <main>
+      <img
+        id="hero-image"
+        class="recipe-hero"
+        alt="Recipe image"
+      />
+      <div class="recipe-header">
+        <h1 id="recipe-title">
+          CHICKEN JOLLOF RICE
+        </h1>
+        <div class="tags">
+          <span class="tag">Nigerian</span>
+          <span class="tag">Main Dish</span>
+          <span class="tag">Spicy</span>
+        </div>
+        <div class="stats-row">
+          <span>⏱ 45 mins</span> <span>👥 Serves 4</span> <span>🔥 Medium</span>
+        </div>
+      </div>
+
+      <!-- Tab bar -->
+      <div class="tab-bar">
+        <button class="tab active" data-tab="ingredients">
+          INGREDIENTS
+        </button>
+        <button class="tab" data-tab="method">
+          METHOD
+        </button>
+        <button class="tab" data-tab="nutrition">
+          NUTRITION
+        </button>
+      </div>
+
+      <!-- Ingredients tab -->
+      <div id="ingredients-tab" class="tab-content active">
+        <ul class="ingredients-list">
+          <!-- populated by JS -->
+        </ul>
+        <div class="action-buttons-row">
+          <button class="action-btn">
+            ✅ I HAVE ALL
+          </button>
+          <button class="action-btn">
+            📝 MISSING 2
+          </button>
+        </div>
+        <div class="video-section">
+          <div class="video-thumbnail">
+            <img
+              src="/images/video-placeholder.jpg"
+              alt="video thumbnail"
+            />
+            <button class="play-btn">
+              ▶️
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Method tab (hidden initially) -->
+      <div id="method-tab" class="tab-content">
+        <div class="method-steps"></div>
+      </div>
+
+      <!-- Nutrition tab (hidden initially) -->
+      <div id="nutrition-tab" class="tab-content">
+        <div class="nutrition-card">
+          <div id="calories">450</div>
+          <div id="daily-value">Daily Value: 22%</div>
+        </div>
+        <div class="macro-circles">
+          <div class="macro-circle" id="carbs-circle">
+            <span>65g</span><span>Carbs</span>
+          </div>
+          <div class="macro-circle" id="protein-circle">
+            <span>22g</span><span>Protein</span>
+          </div>
+          <div class="macro-circle" id="fat-circle">
+            <span>15g</span><span>Fat</span>
+          </div>
+        </div>
+        <div class="micro-bars">
+          <div>
+            Iron:
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: 45%"></div>
+            </div>
+            45%
+          </div>
+          <div>
+            Calcium:
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: 25%"></div>
+            </div>
+            25%
+          </div>
+          <div>
+            Vitamin C:
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: 80%"></div>
+            </div>
+            80%
+          </div>
+        </div>
+        <div class="dietary-labels">
+          <span class="dietary-label">High Protein</span>
+          <span class="dietary-label">Vitamin C Rich</span>
+        </div>
+        <p class="nutrition-tip">💡 This meal provides...</p>
+      </div>
+
+      <div class="bottom-actions">
+        <button id="print-btn">
+          🖨️ PRINT
+        </button>
+        <button id="share-bottom">
+          📱 SHARE
+        </button>
+      </div>
+    </main>
+
+    <!-- No bottom nav on details page -->
+
+    <script type="module" src="/js/main.mjs"></script>
+  </body>
+</html>

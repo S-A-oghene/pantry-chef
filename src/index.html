@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Pantry Chef – Home</title>
+    <meta
+      name="description"
+      content="Find recipes with ingredients you have at home."
+    />
+    <meta name="author" content="Your Name" />
+    <link rel="stylesheet" href="/css/style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Open+Sans:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <!-- Mobile Header (60px) -->
+    <header class="main-header mobile-only">
+      <div class="logo-container">
+        <img
+          src="/images/pot-icon.svg"
+          alt="Pantry Chef logo"
+          class="logo"
+          width="40"
+          height="40"
+        />
+        <span class="logo-text">Pantry Chef</span>
+      </div>
+      <button class="menu-toggle" aria-label="Menu">☰</button>
+    </header>
+
+    <!-- Desktop Header (70px) -->
+    <header class="desktop-header desktop-only">
+      <div class="desktop-logo">
+        <img
+          src="/images/pot-icon.svg"
+          alt="Pantry Chef"
+          width="40"
+          height="40"
+        />
+        <span>Pantry Chef</span>
+      </div>
+      <div class="desktop-controls">
+        <button class="icon-btn" aria-label="Profile">👤</button>
+        <button class="icon-btn" aria-label="Notifications">🔔</button>
+        <button class="icon-btn dark-mode-toggle" aria-label="Dark mode">
+          ☀️
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <!-- Mobile View -->
+      <div class="mobile-view">
+        <section class="search-section">
+          <form id="ingredient-form">
+            <div class="search-wrapper">
+              <input
+                type="text"
+                id="ingredient-input"
+                placeholder="Search ingredients... e.g. rice, chicken, pepper"
+                autocomplete="off"
+              />
+              <button type="submit" aria-label="Search">🔎</button>
+            </div>
+          </form>
+          <div id="suggestions" class="suggestions-box"></div>
+          <div id="selected-ingredients" class="selected-ingredients"></div>
+          <button
+            id="nigerian-specials"
+            class="btn-primary" 
+          >
+            📌 Nigerian Specials
+          </button>
+        </section>
+
+        <section class="popular">
+          <h2>POPULAR FOR LAGOS NOW</h2>
+          <div id="popular-recipes" class="recipe-grid mobile-grid"></div>
+        </section>
+      </div>
+
+      <!-- Desktop Dashboard (3‑column) -->
+      <div class="desktop-view desktop-only">
+        <div class="desktop-dashboard">
+          <!-- Left sidebar -->
+          <aside class="dashboard-left">
+            <div class="pantry-panel">
+              <h3>YOUR PANTRY</h3>
+              <ul class="pantry-list" id="pantry-list">
+                <li draggable="true">🍚 Rice</li>
+                <li draggable="true">🍗 Chicken</li>
+                <li draggable="true">🌶️ Pepper</li>
+                <li draggable="true">🍅 Tomatoes</li>
+                <li draggable="true">🧅 Onions</li>
+                <li draggable="true">🫘 Beans</li>
+                <li draggable="true">🌽 Garri</li>
+              </ul>
+              <button class="manage-btn">
+                Manage
+              </button>
+              <div class="naija-tips">
+                <h4>NAIJA TIPS:</h4>
+                <ul>
+                  <li>• Store garri in airtight containers</li>
+                  <li>• Keep onions away from potatoes</li>
+                </ul>
+              </div>
+            </div>
+          </aside>
+
+          <!-- Center column -->
+          <div class="dashboard-center">
+            <div class="search-wrapper desktop-search">
+              <input type="text" placeholder="Search ingredients..." />
+              <button>🔎</button>
+            </div>
+            <div class="desktop-recipe-grid" id="desktop-popular"></div>
+            <button class="view-all-btn">
+              VIEW ALL RECIPES →
+            </button>
+          </div>
+
+          <!-- Right sidebar -->
+          <aside class="dashboard-right">
+            <div class="trending-panel">
+              <h3>TRENDING IN NIGERIA</h3>
+              <ul>
+                <li>• Suya</li>
+                <li>• Moi Moi</li>
+                <li>• Pounded Yam</li>
+              </ul>
+            </div>
+            <div class="nutrition-calculator">
+              <h4>NUTRITION CALCULATOR</h4>
+              <label
+                >Meal:
+                <select>
+                  <option>Jollof</option>
+                </select></label
+              >
+              <div>Calories: <span>450</span></div>
+              <div>Carbs: <span>65g</span></div>
+              <div>Protein: <span>22g</span></div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </main>
+
+    <!-- Mobile Bottom Navigation (60px) -->
+    <nav class="bottom-nav mobile-only">
+      <a href="/" class="nav-item active" data-page="home"
+        >🏠<span>Home</span></a
+      >
+      <a href="/recipe/" class="nav-item" data-page="search"
+        >🔍<span>Search</span></a
+      >
+      <a href="/favorites/" class="nav-item" data-page="favorites"
+        >❤️<span>Faves</span></a
+      >
+      <a href="/tips/" class="nav-item" data-page="tips">💡<span>Tips</span></a>
+    </nav>
+
+    <!-- Pantry Management Modal (hidden by default) -->
+    <div id="pantry-modal" class="modal" style="display: none">
+      <div class="modal-content" style="width: 600px; height: 700px">
+        <h2>MANAGE YOUR PANTRY</h2>
+        <input
+          type="search"
+          placeholder="🔍 Search ingredients..."
+          style="width: 536px; height: 44px"
+        />
+        <div class="common-ingredients">
+          <button>Rice</button><button>Beans</button><button>Oil</button
+          ><button>Salt</button> <button>Chicken</button
+          ><button>Tomatoes</button><button>Onions</button
+          ><button>Garri</button>
+        </div>
+        <div class="pantry-items">
+          <div class="pantry-item-card">
+            <span>Rice</span><span>2 cups</span><button>✏️</button
+            ><button>🗑️</button>
+          </div>
+          <div class="pantry-item-card">
+            <span>Chicken</span><span>500g</span><button>✏️</button
+            ><button>🗑️</button>
+          </div>
+        </div>
+        <div class="modal-actions">
+          <button class="btn-primary">SAVE</button>
+          <button class="btn-outline">CANCEL</button>
+        </div>
+      </div>
+    </div>
+
+    <script type="module" src="/js/main.mjs"></script>
+  </body>
+</html>

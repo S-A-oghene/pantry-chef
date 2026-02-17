@@ -1,0 +1,41 @@
+{
+  "name": "pantry-chef",
+  "version": "1.0.0",
+  "description": "Pantry Chef – pixel‑perfect wireframe implementation with Nigerian flavour",
+  "main": "main.js",
+  "type": "module",
+  "scripts": {
+    "start": "vite",
+    "build": "vite build --emptyOutDir",
+    "preview": "vite preview",
+    "lint": "eslint *.js src/**/*.js src/**/*.mjs",
+    "format": "prettier --ignore-path ./.gitignore --write \"./**/*.{html,json,js,mjs,ts,css}\"",
+    "test": "jest"
+  },
+  "keywords": [
+    "recipe",
+    "nigeria",
+    "food",
+    "nutrition"
+  ],
+  "author": "Your Name",
+  "license": "ISC",
+  "devDependencies": {
+    "@eslint/js": "^9.39.2",
+    "eslint": "^9.0.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-import": "^2.29.1",
+    "globals": "^17.3.0",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^30.2.0",
+    "prettier": "^3.2.5",
+    "vite": "^5.4.7"
+  },
+  "browserslist": [
+    "last 3 Chrome versions",
+    "last 3 Chrome Android versions",
+    "last 3 Opera versions",
+    "last 3 iOS Safari versions",
+    "last 3 Safari versions"
+  ]
+}
