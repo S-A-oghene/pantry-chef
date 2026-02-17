@@ -9,6 +9,12 @@ dist/
 .env
 src/js/config.mjs
 
+check_requirements_satisfaction.log
+NPM_FIXES_SUMMARY.md
+PROJECT_WIREFRAME.md
+REQUIREMENTS_VERIFICATION_REPORT.md
+
+
 # IDE
 .vscode/
 .idea/
