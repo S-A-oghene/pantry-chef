@@ -1,5 +1,6 @@
 import { searchRecipesByIngredients } from "./apiService.mjs";
 import { renderRecipeCards, showSkeleton } from "./uiComponents.mjs";
+import { getUrl } from "./navigationHelper.mjs";
 
 export async function initSearch() {
   const urlParams = new URLSearchParams(window.location.search);
@@ -65,9 +66,9 @@ export async function initSearch() {
       // For demo, just reload with category filter
       const filter = btn.textContent.trim();
       if (filter === "Nigerian") {
-        window.location.href = "/recipe/?category=Nigerian";
+        window.location.href = getUrl("/recipe/?category=Nigerian");
       } else if (filter === "All") {
-        window.location.href = "/recipe/";
+        window.location.href = getUrl("/recipe/");
       }
     });
   });
