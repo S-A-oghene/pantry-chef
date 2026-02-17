@@ -1,3 +1,5 @@
+import { getUrl } from "./navigationHelper.mjs";
+
 export function renderRecipeCards(
   recipes,
   container,
@@ -14,7 +16,7 @@ export function renderRecipeCards(
     card.className = "recipe-card";
     card.dataset.id = recipe.id;
     card.addEventListener("click", () => {
-      window.location.href = `/recipe/detail.html?id=${recipe.id}`;
+      window.location.href = getUrl(`/recipe/detail.html?id=${recipe.id}`);
     });
     card.innerHTML = `
       <img src="${recipe.image}" alt="${recipe.name}" loading="lazy">
