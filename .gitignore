@@ -6,9 +6,10 @@ dist/
 
 # environment / secrets
 .env
-# Note: config.mjs is committed with empty/default values
-# to ensure builds work in CI/CD. Users should add their own API keys locally.
-# To avoid committing real keys, use: git update-index --assume-unchanged src/js/config.mjs
+.env.local
+.env.*.local
+# Note: config.mjs uses environment variables from .env.local
+# Keep your API keys in .env.local (not committed to version control)
 
 # internal reports (not for repo)
 .check_requirements_satisfaction.log
