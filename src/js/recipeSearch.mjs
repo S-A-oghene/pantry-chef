@@ -39,33 +39,8 @@ export async function initSearch() {
     });
   }
 
-  // Fetch recipes
+  // Fetch recipes with pagination
   const resultsContainer = document.getElementById("search-results");
-  if (resultsContainer) {
-    showSkeleton(resultsContainer, 4);
-    try {
-      let recipes = [];
-      if (ingredientsParam) {
-        const ingArray = ingredientsParam.split(",");
-        recipes = await searchRecipesByIngredients(ingArray);
-      } else if (category === "Nigerian") {
-        recipes = await searchRecipesByIngredients([
-          "rice",
-          "pepper",
-          "tomato",
-        ]);
-      } else {
-        recipes = []; // default empty
-      }
-      renderRecipeCards(recipes, resultsContainer, "mobile", {
-        showMatch: true,
-      });
-      document.querySelector(".results-count").textContent =
-        `${recipes.length} RECIPES FOUND:`;
-    } catch {
-      resultsContainer.innerHTML = "<p>Error loading recipes.</p>";
-    }
-  }
 
   // Filter buttons with full filter logic
   let selectedFilters = { category: null, mealType: null, time: null };
@@ -119,13 +94,75 @@ export async function initSearch() {
     navigateTo(`/recipe/?${params.toString()}`);
   }
 
-  // Load more button with proper accessibility
+  // Load more button with pagination support
   const loadMoreBtn = document.getElementById("load-more");
+  let allRecipes = [];
+  let displayedCount = 0;
+  const itemsPerPage = 8;
+  
   if (loadMoreBtn) {
     loadMoreBtn.setAttribute("aria-label", "Load more recipes");
+    loadMoreBtn.style.display = "none"; // Hide until we have results
+    
     loadMoreBtn.addEventListener("click", () => {
-      alert("More recipes would load here with full API integration.");
+      if (allRecipes.length > displayedCount) {
+        // Load next batch of recipes
+        const nextBatch = allRecipes.slice(displayedCount, displayedCount + itemsPerPage);
+        renderRecipeCards(nextBatch, resultsContainer, "mobile", { showMatch: true });
+        displayedCount += itemsPerPage;
+        
+        // Hide button if no more recipes to load
+        if (displayedCount >= allRecipes.length) {
+          loadMoreBtn.style.display = "none";
+        }
+      }
     });
+  }
+  
+  // Update fetch recipes section to support pagination
+  if (resultsContainer) {
+    showSkeleton(resultsContainer, 4);
+    try {
+      let recipes = [];
+      if (ingredientsParam) {
+        const ingArray = ingredientsParam.split(",");
+        recipes = await searchRecipesByIngredients(ingArray);
+      } else if (category === "Nigerian") {
+        recipes = await searchRecipesByIngredients([
+          "rice",
+          "pepper",
+          "tomato",
+        ]);
+      } else {
+        recipes = []; // default empty
+      }
+      
+      allRecipes = recipes;
+      displayedCount = Math.min(itemsPerPage, recipes.length);
+      
+      // Display first batch
+      const firstBatch = recipes.slice(0, displayedCount);
+      renderRecipeCards(firstBatch, resultsContainer, "mobile", {
+        showMatch: true,
+      });
+      
+      // Update results count with pagination info
+      const countElement = document.querySelector(".results-count");
+      if (countElement) {
+        countElement.textContent = `${recipes.length} RECIPES FOUND:`;
+        if (recipes.length > displayedCount) {
+          countElement.textContent += ` (showing ${displayedCount}/${recipes.length})`;
+        }
+      }
+      
+      // Show load more button if there are more recipes
+      if (loadMoreBtn && recipes.length > displayedCount) {
+        loadMoreBtn.style.display = "block";
+      }
+    } catch (err) {
+      console.error("Error loading recipes:", err);
+      resultsContainer.innerHTML = "<p>⚠️ Error loading recipes. Please check your connection and try again.</p>";
+    }
   }
 
   // Back button with accessibility
@@ -142,7 +179,7 @@ export async function initSearch() {
   if (settingsBtn) {
     settingsBtn.setAttribute("aria-label", "Advanced filters and sort options");
     settingsBtn.addEventListener("click", () => {
-      alert("Advanced filter options coming soon.");
+      alert("⚙️ Advanced filter options (sort by rating, difficulty, prep time) coming soon!");
     });
   }
   

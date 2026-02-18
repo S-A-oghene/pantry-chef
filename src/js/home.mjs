@@ -261,11 +261,19 @@ export async function initHome() {
       });
       item.addEventListener("click", (e) => {
         e.stopPropagation();
-        if (item.textContent.includes("Sign Out")) {
-          alert("👤 Sign out functionality coming soon!");
-        } else {
-          alert(`📌 ${item.textContent.trim()} coming soon!`);
+        
+        // Provide contextual feedback based on menu item
+        const itemText = item.textContent.trim();
+        if (itemText.includes("My Recipes")) {
+          alert("📋 Your saved recipes will appear here. Start by saving recipes to your favorites! (❤️ button on recipe details)");
+        } else if (itemText.includes("Settings")) {
+          alert("⚙️ Settings options:\n• Dark mode (available via ☀️ button in header)\n• Notification preferences\n• Unit preferences (coming soon)");
+        } else if (itemText.includes("Help")) {
+          alert("❓ Help & Support:\n\n1. Search recipes by ingredient\n2. Use filters to narrow results\n3. View nutrition info on recipe details\n4. Save favorites for quick access\n5. Share recipes with friends\n\nFor additional help, visit our GitHub: S-A-oghene/pantry-chef");
+        } else if (itemText.includes("Sign Out")) {
+          alert("🚪 You're currently using Pantry Chef as a guest. All your favorites are stored locally in your browser.");
         }
+        
         menu.remove();
       });
     });
@@ -328,19 +336,31 @@ function checkAndDisplayAPIStatus() {
     mode: "no-cors"
   }).then(() => {
     let statusMessage = "✅ TheMealDB API: Connected";
+    let hasFullFunctionality = false;
     
     // Check Edamam API configuration
     if (API_KEYS?.EDAMAM?.APP_ID && API_KEYS?.EDAMAM?.APP_KEY) {
       statusMessage += " | ✅ Edamam API: Configured";
+      hasFullFunctionality = true;
     } else {
-      statusMessage += " | ⚠️ Edamam API: Not configured (nutrition features limited)";
+      statusMessage += " | ⚠️ Edamam API: Not configured";
     }
     
     statusText.textContent = statusMessage;
     statusBanner.style.display = "block";
-    statusBanner.style.backgroundColor = "#e8f5e9";
-    statusBanner.style.borderColor = "#4caf50";
-    statusBanner.style.color = "#2e7d32";
+    statusBanner.style.backgroundColor = hasFullFunctionality ? "#e8f5e9" : "#fff8e1";
+    statusBanner.style.borderColor = hasFullFunctionality ? "#4caf50" : "#fbc02d";
+    statusBanner.style.color = hasFullFunctionality ? "#2e7d32" : "#f57f17";
+    statusBanner.style.cursor = "pointer";
+    
+    // Add click handler for more info
+    statusBanner.addEventListener("click", () => {
+      if (!hasFullFunctionality) {
+        alert("📊 Nutrition Features Status:\n\n✅ Recipe search: Fully functional (TheMealDB)\n✅ Recipe details: Fully functional\n✅ Favorites & tips: Fully functional\n\n⚠️ Advanced nutrition analysis (Edamam API) requires configuration:\n\n1. Get free API keys from:\n   https://developer.edamam.com/\n\n2. Update src/js/config.mjs with your keys\n\n3. Restart development server\n\nWithout Edamam, nutrition info uses mock data.\nCore recipe features work perfectly!");
+      } else {
+        alert("✅ All features fully operational!\n\nTheMealDB: Recipe data & search ✓\nEdamam: Nutrition analysis ✓\n\nEnjoy exploring Nigerian recipes!");
+      }
+    });
     
     // Auto-hide after 8 seconds
     setTimeout(() => {
