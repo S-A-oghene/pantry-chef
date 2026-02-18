@@ -32,6 +32,11 @@
       <button class="menu-toggle" aria-label="Toggle mobile menu" title="Open menu">☰</button>
     </header>
 
+    <!-- API Status Indicator -->
+    <div id="api-status" class="api-status-banner" style="display: none; padding: 12px; text-align: center; font-size: 13px; border-bottom: 1px solid #ddd;">
+      <span id="api-status-text">🔄 Checking API connectivity...</span>
+    </div>
+
     <!-- Desktop Header (70px) -->
     <header class="desktop-header desktop-only">
       <div class="desktop-logo">
@@ -120,7 +125,7 @@
           <div class="dashboard-center">
             <div class="search-wrapper desktop-search">
               <input type="text" placeholder="Search ingredients..." />
-              <button>🔎</button>
+              <button title="Search for recipes">🔎</button>
             </div>
             <div class="desktop-recipe-grid" id="desktop-popular"></div>
             <button class="view-all-btn" title="View all available recipes">

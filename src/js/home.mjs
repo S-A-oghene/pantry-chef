@@ -7,6 +7,7 @@ import {
 import { ingredientMapping } from "./ingredientMap.mjs";
 import { openPantryModal } from "./pantryManager.mjs";
 import { getUrl } from "./navigationHelper.mjs";
+import { API_KEYS } from "./config.mjs";
 
 // Import and use router from main.mjs
 let routerFunc = null;
@@ -22,6 +23,9 @@ function navigateTo(path) {
 }
 
 export async function initHome() {
+  // Check API status and show feedback
+  checkAndDisplayAPIStatus();
+  
   // Load popular recipes on mobile
   const popularContainer = document.getElementById("popular-recipes");
   if (popularContainer) {
@@ -130,18 +134,152 @@ export async function initHome() {
       if (input) input.focus();
     });
 
-  // Desktop icon buttons (profile, notifications) - with user feedback
+  // Desktop icon buttons (profile, notifications) - with visual feedback and interactive menus
   document.querySelectorAll(".icon-btn").forEach((btn) => {
+    const label = btn.getAttribute("aria-label");
+    
     btn.addEventListener("click", (e) => {
       e.preventDefault();
-      const label = btn.getAttribute("aria-label");
+      e.stopPropagation();
+      
+      // Add visual feedback
+      btn.style.transform = "scale(0.95)";
+      setTimeout(() => {
+        btn.style.transform = "scale(1)";
+      }, 100);
+      
       if (label === "Notifications") {
-        alert("📬 No new notifications at this time.");
+        showNotificationMenu(btn);
       } else if (label === "Profile") {
-        alert("👤 User profile feature coming soon!");
+        showProfileMenu(btn);
       }
     });
   });
+  
+  function showNotificationMenu(btn) {
+    // Remove existing menu if present
+    const existingMenu = document.querySelector(".notification-menu");
+    if (existingMenu) {
+      existingMenu.remove();
+      return;
+    }
+    
+    const menu = document.createElement("div");
+    menu.className = "notification-menu";
+    menu.innerHTML = `
+      <div class="notification-item">
+        <strong>Recipe Saved</strong>
+        <small>You saved Jollof Rice to favorites</small>
+      </div>
+      <div class="notification-divider"></div>
+      <div class="notification-item">
+        <strong>Welcome Back!</strong>
+        <small>Complete your pantry setup</small>
+      </div>
+      <div class="notification-footer">
+        <a href="#" style="color: #008751; font-size: 12px;">View all notifications</a>
+      </div>
+    `;
+    menu.style.cssText = `
+      position: fixed;
+      top: 60px;
+      right: 20px;
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      width: 280px;
+      z-index: 1000;
+      font-family: 'Open Sans', sans-serif;
+      font-size: 13px;
+    `;
+    document.body.appendChild(menu);
+    
+    // Close menu when clicking outside
+    setTimeout(() => {
+      document.addEventListener("click", function closeMenu(e) {
+        if (!menu.contains(e.target) && !btn.contains(e.target)) {
+          menu.remove();
+          document.removeEventListener("click", closeMenu);
+        }
+      });
+    }, 0);
+  }
+  
+  function showProfileMenu(btn) {
+    // Remove existing menu if present
+    const existingMenu = document.querySelector(".profile-menu");
+    if (existingMenu) {
+      existingMenu.remove();
+      return;
+    }
+    
+    const menu = document.createElement("div");
+    menu.className = "profile-menu";
+    menu.innerHTML = `
+      <div class="menu-header">
+        <div style="font-size: 24px;">👤</div>
+        <div>
+          <div style="font-weight: bold; font-size: 14px;">Guest User</div>
+          <div style="font-size: 12px; color: #666;">Welcome to Pantry Chef</div>
+        </div>
+      </div>
+      <div class="menu-divider"></div>
+      <div class="menu-item">📋 My Recipes</div>
+      <div class="menu-item">⚙️ Settings</div>
+      <div class="menu-item">❓ Help & Support</div>
+      <div class="menu-divider"></div>
+      <div class="menu-item" style="color: #d90000;">🚪 Sign Out</div>
+    `;
+    menu.style.cssText = `
+      position: fixed;
+      top: 60px;
+      right: 20px;
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      width: 250px;
+      z-index: 1000;
+      font-family: 'Open Sans', sans-serif;
+      font-size: 13px;
+    `;
+    document.body.appendChild(menu);
+    
+    // Add click handlers to menu items
+    menu.querySelectorAll(".menu-item").forEach((item) => {
+      item.style.cssText = `
+        padding: 12px 16px;
+        cursor: pointer;
+        border-bottom: 1px solid #f0f0f0;
+      `;
+      item.addEventListener("mouseenter", () => {
+        item.style.backgroundColor = "#f9f9f9";
+      });
+      item.addEventListener("mouseleave", () => {
+        item.style.backgroundColor = "transparent";
+      });
+      item.addEventListener("click", (e) => {
+        e.stopPropagation();
+        if (item.textContent.includes("Sign Out")) {
+          alert("👤 Sign out functionality coming soon!");
+        } else {
+          alert(`📌 ${item.textContent.trim()} coming soon!`);
+        }
+        menu.remove();
+      });
+    });
+    
+    // Close menu when clicking outside
+    setTimeout(() => {
+      document.addEventListener("click", function closeMenu(e) {
+        if (!menu.contains(e.target) && !btn.contains(e.target)) {
+          menu.remove();
+          document.removeEventListener("click", closeMenu);
+        }
+      });
+    }, 0);
+  }
 
   // Form submit
   const form = document.getElementById("ingredient-form");
@@ -174,5 +312,49 @@ export async function initHome() {
   // View all recipes button
   document.querySelector(".view-all-btn")?.addEventListener("click", () => {
     navigateTo("/recipe/");
+  });
+}
+
+// Function to check and display API status
+function checkAndDisplayAPIStatus() {
+  const statusBanner = document.getElementById("api-status");
+  const statusText = document.getElementById("api-status-text");
+  
+  if (!statusBanner || !statusText) return;
+  
+  // Check TheMealDB API
+  fetch("https://www.themealdb.com/api/json/v1/1/filter.php?i=rice", {
+    method: "HEAD",
+    mode: "no-cors"
+  }).then(() => {
+    let statusMessage = "✅ TheMealDB API: Connected";
+    
+    // Check Edamam API configuration
+    if (API_KEYS?.EDAMAM?.APP_ID && API_KEYS?.EDAMAM?.APP_KEY) {
+      statusMessage += " | ✅ Edamam API: Configured";
+    } else {
+      statusMessage += " | ⚠️ Edamam API: Not configured (nutrition features limited)";
+    }
+    
+    statusText.textContent = statusMessage;
+    statusBanner.style.display = "block";
+    statusBanner.style.backgroundColor = "#e8f5e9";
+    statusBanner.style.borderColor = "#4caf50";
+    statusBanner.style.color = "#2e7d32";
+    
+    // Auto-hide after 8 seconds
+    setTimeout(() => {
+      statusBanner.style.opacity = "0";
+      statusBanner.style.transition = "opacity 0.3s ease";
+      setTimeout(() => {
+        statusBanner.style.display = "none";
+      }, 300);
+    }, 8000);
+  }).catch(() => {
+    statusText.textContent = "⚠️ Network error: Check your connection or API availability";
+    statusBanner.style.display = "block";
+    statusBanner.style.backgroundColor = "#fff3e0";
+    statusBanner.style.borderColor = "#ff9800";
+    statusBanner.style.color = "#e65100";
   });
 }
