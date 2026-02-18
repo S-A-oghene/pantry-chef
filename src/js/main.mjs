@@ -1,12 +1,12 @@
-import { initHome } from "./home.mjs";
-import { initSearch } from "./recipeSearch.mjs";
-import { initDetail } from "./recipeDetail.mjs";
-import { initFavorites } from "./favorites.mjs";
-import { initTips } from "./tips.mjs";
+import { initHome, setRouter as setHomeRouter } from "./home.mjs";
+import { initSearch, setRouter as setSearchRouter } from "./recipeSearch.mjs";
+import { initDetail, setRouter as setDetailRouter } from "./recipeDetail.mjs";
+import { initFavorites, setRouter as setFavoritesRouter } from "./favorites.mjs";
+import { initTips, setRouter as setTipsRouter } from "./tips.mjs";
 import { loadDarkMode } from "./uiAnimations.mjs";
 import { setupNavigation, updateLinksForBaseUrl } from "./navigationHelper.mjs";
 
-function router() {
+export function router() {
   const baseUrl = import.meta.env.BASE_URL || "/";
   let path = window.location.pathname;
   
@@ -15,27 +15,26 @@ function router() {
     path = path.slice(baseUrl.length - 1); // Keep leading slash
   }
   
-  // Clear previous page content
-  const main = document.querySelector("main");
-  if (main) {
-    // Allow graceful transitions
-    main.style.opacity = "1";
+  // Normalize path
+  if (!path.startsWith("/")) {
+    path = "/" + path;
   }
   
-  if (path === "/" || path === "/index.html") {
+  // Clear previous page content and call appropriate init function
+  if (path === "/" || path === "/index.html" || path === "") {
     initHome();
   } else if (path === "/recipe/" || path === "/recipe/index.html") {
     initSearch();
-  } else if (path.includes("/recipe/detail.html")) {
+  } else if (path.includes("/recipe/detail")) {
     initDetail();
-  } else if (path.includes("/favorites/")) {
+  } else if (path.includes("/favorites")) {
     initFavorites();
-  } else if (path.includes("/tips/")) {
+  } else if (path.includes("/tips")) {
     initTips();
   }
 }
 
-// Handle navigation changes (from back/forward buttons and manual navigation)
+// Handle navigation changes (from back/forward buttons)
 window.addEventListener("popstate", () => {
   router();
 });
@@ -43,7 +42,14 @@ window.addEventListener("popstate", () => {
 document.addEventListener("DOMContentLoaded", () => {
   // Setup navigation helpers for GitHub Pages subdirectory
   updateLinksForBaseUrl();
-  setupNavigation();
+  setupNavigation(router);
+  
+  // Pass router function to all modules so they can use it for navigation
+  setHomeRouter(router);
+  setSearchRouter(router);
+  setDetailRouter(router);
+  setFavoritesRouter(router);
+  setTipsRouter(router);
   
   router();
   loadDarkMode();

@@ -1,6 +1,12 @@
 import { getFavorites } from "./localStorageManager.mjs";
 import { renderRecipeCards } from "./uiComponents.mjs";
 
+let routerFunc = null;
+
+export function setRouter(router) {
+  routerFunc = router;
+}
+
 export function initFavorites() {
   const container = document.getElementById("favorites-list");
   const favorites = getFavorites();

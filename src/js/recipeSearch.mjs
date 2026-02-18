@@ -2,6 +2,18 @@ import { searchRecipesByIngredients } from "./apiService.mjs";
 import { renderRecipeCards, showSkeleton } from "./uiComponents.mjs";
 import { getUrl } from "./navigationHelper.mjs";
 
+let routerFunc = null;
+
+export function setRouter(router) {
+  routerFunc = router;
+}
+
+function navigateTo(path) {
+  const url = getUrl(path);
+  window.history.pushState({}, "", url);
+  if (routerFunc) routerFunc();
+}
+
 export async function initSearch() {
   const urlParams = new URLSearchParams(window.location.search);
   const ingredientsParam = urlParams.get("ingredients");
@@ -68,9 +80,7 @@ export async function initSearch() {
         selectedFilters = { category: null, mealType: null, time: null };
         document.querySelectorAll(".filter-btn").forEach((b) => b.classList.remove("active"));
         btn.classList.add("active");
-        const url = getUrl("/recipe/");
-        window.history.pushState({}, "", url);
-        window.dispatchEvent(new PopStateEvent("popstate"));
+        navigateTo("/recipe/");
       } else if (["Breakfast", "Lunch", "Dinner"].includes(filterValue)) {
         // Meal type filter
         selectedFilters.mealType = filterValue.toLowerCase();
@@ -106,9 +116,7 @@ export async function initSearch() {
     if (selectedFilters.category) params.set("category", selectedFilters.category);
     if (selectedFilters.mealType) params.set("mealType", selectedFilters.mealType);
     if (selectedFilters.time) params.set("time", selectedFilters.time);
-    const url = getUrl(`/recipe/?${params.toString()}`);
-    window.history.pushState({}, "", url);
-    window.dispatchEvent(new PopStateEvent("popstate"));
+    navigateTo(`/recipe/?${params.toString()}`);
   }
 
   // Load more button with proper accessibility
@@ -143,9 +151,7 @@ export async function initSearch() {
   if (addIngBtn) {
     addIngBtn.setAttribute("aria-label", "Add another ingredient to search");
     addIngBtn.addEventListener("click", () => {
-      const url = getUrl("/");
-      window.history.pushState({}, "", url);
-      window.dispatchEvent(new PopStateEvent("popstate"));
+      navigateTo("/");
     });
   }
 }

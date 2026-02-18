@@ -4,6 +4,19 @@ import { addToFavorites, isFavorite } from "./localStorageManager.mjs";
 import { shareRecipe } from "./shareFunction.mjs";
 import { printRecipe } from "./printRecipe.mjs";
 import { animateProgressBars } from "./uiAnimations.mjs";
+import { getUrl } from "./navigationHelper.mjs";
+
+let routerFunc = null;
+
+export function setRouter(router) {
+  routerFunc = router;
+}
+
+function navigateTo(path) {
+  const url = getUrl(path);
+  window.history.pushState({}, "", url);
+  if (routerFunc) routerFunc();
+}
 
 export async function initDetail() {
   const urlParams = new URLSearchParams(window.location.search);

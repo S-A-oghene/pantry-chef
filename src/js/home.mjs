@@ -8,6 +8,19 @@ import { ingredientMapping } from "./ingredientMap.mjs";
 import { openPantryModal } from "./pantryManager.mjs";
 import { getUrl } from "./navigationHelper.mjs";
 
+// Import and use router from main.mjs
+let routerFunc = null;
+
+export function setRouter(router) {
+  routerFunc = router;
+}
+
+function navigateTo(path) {
+  const url = getUrl(path);
+  window.history.pushState({}, "", url);
+  if (routerFunc) routerFunc();
+}
+
 export async function initHome() {
   // Load popular recipes on mobile
   const popularContainer = document.getElementById("popular-recipes");
@@ -89,13 +102,11 @@ export async function initHome() {
     updateSelectedIngredients(normalized, true);
   }
 
-  // Nigerian Specials button - use getUrl() for proper base URL handling
+  // Nigerian Specials button - use navigateTo for immediate page update
   document
     .getElementById("nigerian-specials")
     ?.addEventListener("click", () => {
-      const url = getUrl("/recipe/?category=Nigerian");
-      window.history.pushState({}, "", url);
-      window.dispatchEvent(new PopStateEvent("popstate"));
+      navigateTo("/recipe/?category=Nigerian");
     });
 
   // Manage pantry button (desktop)
@@ -157,15 +168,11 @@ export async function initHome() {
       input?.focus();
       return;
     }
-    const url = getUrl(`/recipe/?ingredients=${encodeURIComponent(ingredients.join(","))}`);
-    window.history.pushState({}, "", url);
-    window.dispatchEvent(new PopStateEvent("popstate"));
+    navigateTo(`/recipe/?ingredients=${encodeURIComponent(ingredients.join(","))}`);
   });
 
   // View all recipes button
   document.querySelector(".view-all-btn")?.addEventListener("click", () => {
-    const url = getUrl("/recipe/");
-    window.history.pushState({}, "", url);
-    window.dispatchEvent(new PopStateEvent("popstate"));
+    navigateTo("/recipe/");
   });
 }

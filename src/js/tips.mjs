@@ -1,3 +1,9 @@
+let routerFunc = null;
+
+export function setRouter(router) {
+  routerFunc = router;
+}
+
 export function initTips() {
   // Static tips already in HTML; nothing needed.
 

@@ -25,8 +25,9 @@ export const getUrl = (path) => {
 /**
  * Setup client-side navigation for all internal links
  * Intercepts link clicks and uses history.pushState instead of full page reload
+ * @param {Function} routerFunc - The router function to call after state change
  */
-export const setupNavigation = () => {
+export const setupNavigation = (routerFunc) => {
   document.addEventListener("click", (event) => {
     const link = event.target.closest("a[href]");
     
@@ -56,8 +57,8 @@ export const setupNavigation = () => {
     event.preventDefault();
     window.history.pushState({}, "", targetPath);
     
-    // Trigger the popstate event which will call router
-    window.dispatchEvent(new PopStateEvent("popstate"));
+    // Call router immediately to update page
+    routerFunc();
   });
 };
 
