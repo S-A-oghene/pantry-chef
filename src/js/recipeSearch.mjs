@@ -68,7 +68,9 @@ export async function initSearch() {
         selectedFilters = { category: null, mealType: null, time: null };
         document.querySelectorAll(".filter-btn").forEach((b) => b.classList.remove("active"));
         btn.classList.add("active");
-        window.location.href = getUrl("/recipe/");
+        const url = getUrl("/recipe/");
+        window.history.pushState({}, "", url);
+        window.dispatchEvent(new PopStateEvent("popstate"));
       } else if (["Breakfast", "Lunch", "Dinner"].includes(filterValue)) {
         // Meal type filter
         selectedFilters.mealType = filterValue.toLowerCase();
@@ -105,7 +107,8 @@ export async function initSearch() {
     if (selectedFilters.mealType) params.set("mealType", selectedFilters.mealType);
     if (selectedFilters.time) params.set("time", selectedFilters.time);
     const url = getUrl(`/recipe/?${params.toString()}`);
-    window.location.href = url;
+    window.history.pushState({}, "", url);
+    window.dispatchEvent(new PopStateEvent("popstate"));
   }
 
   // Load more button with proper accessibility
@@ -140,7 +143,9 @@ export async function initSearch() {
   if (addIngBtn) {
     addIngBtn.setAttribute("aria-label", "Add another ingredient to search");
     addIngBtn.addEventListener("click", () => {
-      window.location.href = getUrl("/");
+      const url = getUrl("/");
+      window.history.pushState({}, "", url);
+      window.dispatchEvent(new PopStateEvent("popstate"));
     });
   }
 }

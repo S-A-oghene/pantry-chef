@@ -16,7 +16,7 @@ export const getUrl = (path) => {
   }
   
   if (path === "/" || path === "") {
-    return BASE_URL.slice(0, -1); // Remove trailing slash for root
+    return BASE_URL.slice(0, -1) || "/"; // Remove trailing slash for root
   }
   
   return BASE_URL + path.slice(1); // Remove leading slash, add after base
@@ -44,23 +44,20 @@ export const setupNavigation = () => {
     let targetPath = href;
     const baseUrlPath = BASE_URL.slice(0, -1); // Remove trailing slash
     
-    // If we're in a subdirectory, don't navigate outside it
-    if (baseUrlPath && !href.startsWith(baseUrlPath)) {
-      // Adjust the target path
-      targetPath = baseUrlPath + href;
+    // If we're in a subdirectory, build proper path
+    if (baseUrlPath) {
+      // The href should already be wrapped, but ensure it has proper base
+      if (!href.startsWith(baseUrlPath)) {
+        targetPath = baseUrlPath + href;
+      }
     }
     
-    // Update browser history and trigger router
+    // Update browser history
     event.preventDefault();
     window.history.pushState({}, "", targetPath);
     
-    // Trigger the router event
-    window.dispatchEvent(new Event("popstate"));
-  });
-  
-  // Handle browser back/forward buttons
-  window.addEventListener("popstate", () => {
-    // Router will be updated here
+    // Trigger the popstate event which will call router
+    window.dispatchEvent(new PopStateEvent("popstate"));
   });
 };
 

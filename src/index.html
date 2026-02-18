@@ -29,7 +29,7 @@
         />
         <span class="logo-text">Pantry Chef</span>
       </div>
-      <button class="menu-toggle" aria-label="Menu">☰</button>
+      <button class="menu-toggle" aria-label="Toggle mobile menu" title="Open menu">☰</button>
     </header>
 
     <!-- Desktop Header (70px) -->
@@ -44,9 +44,9 @@
         <span>Pantry Chef</span>
       </div>
       <div class="desktop-controls">
-        <button class="icon-btn" aria-label="Profile">👤</button>
-        <button class="icon-btn" aria-label="Notifications">🔔</button>
-        <button class="icon-btn dark-mode-toggle" aria-label="Dark mode">
+        <button class="icon-btn" aria-label="Profile" title="View your profile">👤</button>
+        <button class="icon-btn" aria-label="Notifications" title="View notifications">🔔</button>
+        <button class="icon-btn dark-mode-toggle" aria-label="Dark mode toggle" title="Toggle dark mode">
           ☀️
         </button>
       </div>
@@ -66,7 +66,7 @@
                 aria-label="Search for ingredients"
                 required
               />
-              <button type="submit" aria-label="Search">🔎</button>
+              <button type="submit" aria-label="Search" title="Search for recipes">🔎</button>
             </div>
           </form>
           <div id="suggestions" class="suggestions-box" role="listbox" aria-label="Ingredient suggestions"></div>
@@ -75,6 +75,7 @@
             id="nigerian-specials"
             class="btn-primary"
             aria-label="Browse Nigerian specialty recipes"
+            title="View authentic Nigerian recipes"
           >
             📌 Nigerian Specials
           </button>
@@ -102,7 +103,7 @@
                 <li draggable="true">🫘 Beans</li>
                 <li draggable="true">🌽 Garri</li>
               </ul>
-              <button class="manage-btn">
+              <button class="manage-btn" title="Manage your pantry items">
                 Manage
               </button>
               <div class="naija-tips">
@@ -122,7 +123,7 @@
               <button>🔎</button>
             </div>
             <div class="desktop-recipe-grid" id="desktop-popular"></div>
-            <button class="view-all-btn">
+            <button class="view-all-btn" title="View all available recipes">
               VIEW ALL RECIPES →
             </button>
           </div>
@@ -180,24 +181,24 @@
           style="width: 536px; height: 44px"
         />
         <div class="common-ingredients">
-          <button>Rice</button><button>Beans</button><button>Oil</button
-          ><button>Salt</button> <button>Chicken</button
-          ><button>Tomatoes</button><button>Onions</button
-          ><button>Garri</button>
+          <button title="Add rice">Rice</button><button title="Add beans">Beans</button><button title="Add oil">Oil</button
+          ><button title="Add salt">Salt</button> <button title="Add chicken">Chicken</button
+          ><button title="Add tomatoes">Tomatoes</button><button title="Add onions">Onions</button
+          ><button title="Add garri">Garri</button>
         </div>
         <div class="pantry-items">
           <div class="pantry-item-card">
-            <span>Rice</span><span>2 cups</span><button>✏️</button
-            ><button>🗑️</button>
+            <span>Rice</span><span>2 cups</span><button title="Edit rice">✏️</button
+            ><button title="Remove rice">🗑️</button>
           </div>
           <div class="pantry-item-card">
-            <span>Chicken</span><span>500g</span><button>✏️</button
-            ><button>🗑️</button>
+            <span>Chicken</span><span>500g</span><button title="Edit chicken">✏️</button
+            ><button title="Remove chicken">🗑️</button>
           </div>
         </div>
         <div class="modal-actions">
-          <button class="btn-primary">SAVE</button>
-          <button class="btn-outline">CANCEL</button>
+          <button class="btn-primary" title="Save pantry changes">SAVE</button>
+          <button class="btn-outline" title="Cancel without saving">CANCEL</button>
         </div>
       </div>
     </div>

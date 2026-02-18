@@ -13,9 +13,9 @@
 
   <body>
     <header class="main-header mobile-only">
-      <button class="back-btn small-btn">←</button>
+      <button class="back-btn small-btn" title="Go back to home">←</button>
       <h1 class="page-title">Recipe Search</h1>
-      <button class="settings-btn small-btn">⚙️</button>
+      <button class="settings-btn small-btn" title="Settings">⚙️</button>
     </header>
 
     <main>
@@ -23,22 +23,22 @@
         <div class="ingredient-chips" id="chip-container">
           <!-- dynamic chips will appear here -->
         </div>
-        <button class="add-ingredient-btn">
+        <button class="add-ingredient-btn" title="Add another ingredient">
           +
         </button>
         <div class="filter-section">
-          <button class="filter-btn active">All</button>
-          <button class="filter-btn">Breakfast</button>
-          <button class="filter-btn">Lunch</button>
-          <button class="filter-btn">Dinner</button>
-          <button class="filter-btn">&lt;30min</button>
-          <button class="filter-btn">&lt;60min</button>
-          <button class="filter-btn">Nigerian</button>
+          <button class="filter-btn active" title="Show all recipes">All</button>
+          <button class="filter-btn" title="Show breakfast recipes">Breakfast</button>
+          <button class="filter-btn" title="Show lunch recipes">Lunch</button>
+          <button class="filter-btn" title="Show dinner recipes">Dinner</button>
+          <button class="filter-btn" title="Show recipes ready in 30 minutes">&lt;30min</button>
+          <button class="filter-btn" title="Show recipes ready in 60 minutes">&lt;60min</button>
+          <button class="filter-btn" title="Show authentic Nigerian recipes">Nigerian</button>
         </div>
 
         <p class="results-count">12 RECIPES FOUND:</p>
         <div id="search-results" class="recipe-grid mobile-grid"></div>
-        <button id="load-more" class="load-more-btn">LOAD MORE</button>
+        <button id="load-more" class="load-more-btn" title="Load more recipes">LOAD MORE</button>
       </div>
     </main>
 

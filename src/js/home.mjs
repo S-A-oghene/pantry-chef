@@ -89,11 +89,13 @@ export async function initHome() {
     updateSelectedIngredients(normalized, true);
   }
 
-  // Nigerian Specials button
+  // Nigerian Specials button - use getUrl() for proper base URL handling
   document
     .getElementById("nigerian-specials")
     ?.addEventListener("click", () => {
-      window.location.href = "/recipe/?category=Nigerian";
+      const url = getUrl("/recipe/?category=Nigerian");
+      window.history.pushState({}, "", url);
+      window.dispatchEvent(new PopStateEvent("popstate"));
     });
 
   // Manage pantry button (desktop)
@@ -101,11 +103,11 @@ export async function initHome() {
     .querySelector(".manage-btn")
     ?.addEventListener("click", openPantryModal);
 
-  // Menu toggle button (mobile)
+  // Menu toggle button (mobile) - handled by main.mjs but add visual feedback
   document
     .querySelector(".menu-toggle")
-    ?.addEventListener("click", () => {
-      // Toggle mobile menu (if implemented)
+    ?.addEventListener("click", (e) => {
+      e.preventDefault();
     });
 
   // Add ingredient button (mobile)
@@ -117,10 +119,16 @@ export async function initHome() {
       if (input) input.focus();
     });
 
-  // Desktop icon buttons (profile, notifications)
+  // Desktop icon buttons (profile, notifications) - with user feedback
   document.querySelectorAll(".icon-btn").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      // Placeholder for future functionality
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+      const label = btn.getAttribute("aria-label");
+      if (label === "Notifications") {
+        alert("📬 No new notifications at this time.");
+      } else if (label === "Profile") {
+        alert("👤 User profile feature coming soon!");
+      }
     });
   });
 
@@ -149,11 +157,15 @@ export async function initHome() {
       input?.focus();
       return;
     }
-    window.location.href = getUrl(`/recipe/?ingredients=${encodeURIComponent(ingredients.join(","))}`);
+    const url = getUrl(`/recipe/?ingredients=${encodeURIComponent(ingredients.join(","))}`);
+    window.history.pushState({}, "", url);
+    window.dispatchEvent(new PopStateEvent("popstate"));
   });
 
   // View all recipes button
   document.querySelector(".view-all-btn")?.addEventListener("click", () => {
-    window.location.href = "/recipe/";
+    const url = getUrl("/recipe/");
+    window.history.pushState({}, "", url);
+    window.dispatchEvent(new PopStateEvent("popstate"));
   });
 }

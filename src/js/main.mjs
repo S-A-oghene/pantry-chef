@@ -15,6 +15,13 @@ function router() {
     path = path.slice(baseUrl.length - 1); // Keep leading slash
   }
   
+  // Clear previous page content
+  const main = document.querySelector("main");
+  if (main) {
+    // Allow graceful transitions
+    main.style.opacity = "1";
+  }
+  
   if (path === "/" || path === "/index.html") {
     initHome();
   } else if (path === "/recipe/" || path === "/recipe/index.html") {
@@ -28,6 +35,11 @@ function router() {
   }
 }
 
+// Handle navigation changes (from back/forward buttons and manual navigation)
+window.addEventListener("popstate", () => {
+  router();
+});
+
 document.addEventListener("DOMContentLoaded", () => {
   // Setup navigation helpers for GitHub Pages subdirectory
   updateLinksForBaseUrl();
@@ -35,4 +47,29 @@ document.addEventListener("DOMContentLoaded", () => {
   
   router();
   loadDarkMode();
+
+  // Set up mobile menu toggle
+  setupMobileMenu();
 });
+
+function setupMobileMenu() {
+  const menuToggle = document.querySelector(".menu-toggle");
+  const bottomNav = document.querySelector(".bottom-nav");
+  
+  if (menuToggle && bottomNav) {
+    menuToggle.addEventListener("click", (e) => {
+      e.preventDefault();
+      bottomNav.classList.toggle("mobile-menu-open");
+      menuToggle.setAttribute("aria-expanded", bottomNav.classList.contains("mobile-menu-open"));
+    });
+    
+    // Close menu when a nav item is clicked
+    const navItems = bottomNav.querySelectorAll(".nav-item");
+    navItems.forEach((item) => {
+      item.addEventListener("click", () => {
+        bottomNav.classList.remove("mobile-menu-open");
+        menuToggle.setAttribute("aria-expanded", "false");
+      });
+    });
+  }
+}

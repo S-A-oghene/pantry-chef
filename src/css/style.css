@@ -556,6 +556,28 @@ body {
   color: var(--primary);
 }
 
+/* Mobile menu toggle state */
+.bottom-nav.mobile-menu-open {
+  display: flex;
+  animation: slideUp 300ms ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.menu-toggle:focus {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
 /* ===== RECIPE DETAIL ===== */
 .recipe-hero {
   width: 100%;

@@ -5,12 +5,31 @@ const EDAMAM_BASE = "https://api.edamam.com/api/nutrition-details";
 
 const cache = new Map();
 
+// Initialize API status on module load
+function initializeAPIFeedback() {
+  console.log("🍳 Pantry Chef API Status:");
+  console.log("✅ TheMealDB API: ENABLED (public API)");
+  
+  if (API_KEYS.EDAMAM?.APP_ID && API_KEYS.EDAMAM?.APP_KEY) {
+    console.log("✅ Edamam API: ENABLED");
+  } else {
+    console.log("⚠️ Edamam API: DISABLED (configure APP_ID and APP_KEY in config.mjs for nutrition features)");
+  }
+}
+
+// Call on module load
+initializeAPIFeedback();
+
 export async function searchRecipesByIngredients(ingredients) {
   const query = ingredients.join(",");
   const cacheKey = `search_${query}`;
-  if (cache.has(cacheKey)) return cache.get(cacheKey);
+  if (cache.has(cacheKey)) {
+    console.log(`📦 Cache hit for ingredients: ${query}`);
+    return cache.get(cacheKey);
+  }
 
   try {
+    console.log(`🔍 Searching recipes for: ${query}`);
     const response = await fetch(`${MEALDB_BASE}/filter.php?i=${query}`);
     if (!response.ok) throw new Error("Network response was not ok");
     const data = await response.json();
@@ -22,18 +41,23 @@ export async function searchRecipesByIngredients(ingredients) {
         }))
       : [];
     cache.set(cacheKey, recipes);
+    console.log(`✅ Found ${recipes.length} recipes for: ${query}`);
     return recipes;
   } catch (err) {
-    console.error("Error fetching recipes:", err);
+    console.error("❌ Error fetching recipes:", err);
     throw err;
   }
 }
 
 export async function getRecipeById(id) {
   const cacheKey = `recipe_${id}`;
-  if (cache.has(cacheKey)) return cache.get(cacheKey);
+  if (cache.has(cacheKey)) {
+    console.log(`📦 Cache hit for recipe ID: ${id}`);
+    return cache.get(cacheKey);
+  }
 
   try {
+    console.log(`📖 Loading recipe details for ID: ${id}`);
     const response = await fetch(`${MEALDB_BASE}/lookup.php?i=${id}`);
     if (!response.ok) throw new Error("Network response was not ok");
     const data = await response.json();
@@ -61,9 +85,10 @@ export async function getRecipeById(id) {
       ingredients,
     };
     cache.set(cacheKey, recipe);
+    console.log(`✅ Recipe loaded: ${recipe.name}`);
     return recipe;
   } catch (err) {
-    console.error("Error fetching recipe details:", err);
+    console.error("❌ Error fetching recipe details:", err);
     throw err;
   }
 }
@@ -75,14 +100,18 @@ export async function getNutritionData(ingredientString) {
     !API_KEYS.EDAMAM.APP_ID ||
     !API_KEYS.EDAMAM.APP_KEY
   ) {
-    console.warn("Edamam API keys not set. Returning mock data.");
+    console.log("⚠️ Edamam API not configured. Using mock nutrition data. Configure API keys in config.mjs to enable real nutrition analysis.");
     return mockNutrition();
   }
 
   const cacheKey = `nutrition_${ingredientString}`;
-  if (cache.has(cacheKey)) return cache.get(cacheKey);
+  if (cache.has(cacheKey)) {
+    console.log(`📦 Nutrition cache hit for: ${ingredientString}`);
+    return cache.get(cacheKey);
+  }
 
   try {
+    console.log(`🥗 Fetching nutrition data for: ${ingredientString}`);
     const response = await fetch(
       `${EDAMAM_BASE}?app_id=${API_KEYS.EDAMAM.APP_ID}&app_key=${API_KEYS.EDAMAM.APP_KEY}`,
       {
@@ -92,7 +121,10 @@ export async function getNutritionData(ingredientString) {
       }
     );
     if (!response.ok) {
-      if (response.status === 429) throw new Error("API rate limit exceeded");
+      if (response.status === 429) {
+        console.warn("⚠️ Edamam API rate limit exceeded. Using mock data.");
+        return mockNutrition();
+      }
       throw new Error("Nutrition API error");
     }
     const data = await response.json();
@@ -112,9 +144,11 @@ export async function getNutritionData(ingredientString) {
       dietLabels: data.dietLabels || [],
     };
     cache.set(cacheKey, nutrition);
+    console.log(`✅ Nutrition data received: ${nutrition.calories} calories`);
     return nutrition;
   } catch (err) {
-    console.error("Error fetching nutrition:", err);
+    console.error("❌ Error fetching nutrition:", err);
+    console.log("Using mock nutrition data as fallback.");
     return mockNutrition();
   }
 }
